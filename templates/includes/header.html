@@ -1,0 +1,255 @@
+{%load static%}
+<style>
+    .account a {
+        position: relative;
+    }
+    .account a span{
+        position: absolute;
+        top: 0;
+        right: 13px;
+        padding: 5px;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: red;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        font-weight: bold;
+    }
+    form.language{
+        display: flex;
+        gap: 5px;
+        align-items: center;
+        width: max-content;
+        margin-left: 20px;
+    }
+    form.language button{
+        height: 30px;
+        width: 40px;
+        padding: 0;
+        margin: 0 10px;
+        background-color: transparent;
+        cursor: pointer;
+        border: none;
+        outline: none;
+        border-radius: 5px;
+    }
+    form.language button.active{
+        border: 2px solid rgb(0, 0, 0);
+        padding: 1px;
+    }
+    form.language button img{
+        width: 100%;
+        height: 100%;
+        border-radius: 5px;
+    }        
+</style>
+<div class="container">
+    <header>
+        <div class="logo"><a href="{%url 'store:home'%}">Senuoy</a></div>
+        <div class="nav">
+            <!--
+            <div class="search">
+                <input type="text" placeholder="Search...">
+                <i class="uil uil-search"></i>
+            </div> 
+            <nav>
+                <a href="">Home</a>
+                <a href="">Home</a>
+                <a href="">Home</a>
+            </nav>
+            --> 
+            <div class="menuhover">
+                <a class="menu" href="javascript:void(0)">
+                    <i class="uil uil-bars"></i>
+                    <span>Menu</span>
+                </a> 
+            </div>
+            <div class="account">
+                {%if not request.user.is_authenticated%}
+                <a href="{%url 'accounts:register'%}"><i class="uil uil-user"></i></a>
+                {%endif%}
+                <a href="{%url 'cart:cart_detail'%}">
+                    <i class="uil uil-shopping-bag"></i>
+                    {% if cart|length < 100 and cart|length > 0 %}
+                        <span>
+                            {{ cart|length }}
+                        </span>
+                    {%elif cart|length > 100 %}
+                        <span>
+                            +99
+                        </span>
+                    {%else%}
+                    <!--Show nothing-->
+                    {%endif%}
+                </a>
+                <a href="#"><i class="uil uil-heart"></i></a>
+                <!--
+                <form action="{% url 'set_language' %}" method="post" class="language">
+                    {% csrf_token %}
+                    <button type="submit" name="language" value="fr" class="{% if LANGUAGE_CODE == 'fr' %}active{% endif %}">
+                        <img src="https://flagcdn.com/fr.svg" alt="Saudi Arabia">
+                    </button>
+                    <button type="submit" name="language" value="ar" class="{% if LANGUAGE_CODE == 'ar' %}active{% endif %}">
+                        <img src="https://flagcdn.com/sa.svg" alt="Saudi Arabia">
+                    </button>
+                </form>
+                -->
+            </div>            
+        </div>
+    </header>
+    <div class="overly"></div>
+    <main class="main_layout">
+            <!--SIDE BAR-->
+            
+            <aside class="sidebar">
+                <div class="link_container">
+                    <div class="menuhover nav_left"> 
+                        <a class="menu" href="javascript:void(0)">
+                            <i class="uil uil-bars"></i>
+                            <span>Menu</span>
+                        </a>
+                        {%if request.user.is_authenticated%}
+                        <div class="user_info">
+                            <p class="store" style="color: rgb(102, 102, 102);">Welcome <span style="color: black;">{{request.user.first_name}}</span> !</p>
+                        </div>
+                        {%endif%}
+                    </div>
+                    <div class="link_section">
+                        <a href="{%url 'store:home'%}" class="link_item">
+                            <i class="uil uil-estate"></i>Home
+                        </a>
+                    </div>
+                    <div class="link_section drop"> 
+                        <div href="#" class="link_item dropdown">
+                            <i class="uil uil-database-alt"></i>
+                            <p style="margin-bottom:0; font-size:14px;">Categories</p>
+                            <i class="uil uil-arrow-down up_down active"></i>
+                            <i class="uil uil-arrow-up up_down"></i>
+                        </div>
+                        <div class="dropcontent">
+                            {% for category in all_categories %}
+                            <a href="{%url 'store:product_by_category' category.slug %}" class="link_item">
+                                <img src="{{category.image.url}}" alt="">
+                                <p style="margin-bottom: 0; font-size:14px;">{{category.slug}}</p>
+                            </a>
+                            {%endfor%}
+                        </div>
+                    </div>
+                    
+                    <div class="section_separator"></div>
+
+                    <div class="link_section">
+                        <h4 class="section_title">Your</h4>
+                        <a href="{%url 'accounts:update_profile' %}" class="link_item">
+                            <i class="uil uil-user-square"></i>Mon compte
+                        </a>
+                        <a href="{%url 'orders:orders_history'%}" class="link_item">
+                            <i class="uil uil-history"></i>Mes Achats
+                        </a>
+                    </div>
+                    <div class="section_separator"></div>
+
+                    <div class="link_section">
+                        <h4 class="section_title">Explore</h4>
+                        <a href="{%url 'tombola:home'%}" class="link_item">
+                            <i class="uil uil-gift"></i>Tombola
+                        </a>
+                        <a href="{%url 'loyalty:home_loyalty'%}" class="link_item">
+                            <i class="uil uil-archive-alt"></i>Systeme de fidélité
+                        </a>
+                    </div>
+                    <div class="section_separator"></div>
+                    
+                    <div class="link_section drop"> 
+                        <div href="#" class="link_item dropdown">
+                            <i class="uil uil-database-alt"></i>
+                            <p style="margin-bottom:0; font-size:14px;">languages</p>
+                            <i class="uil uil-arrow-down up_down active"></i>
+                            <i class="uil uil-arrow-up up_down"></i>
+                        </div>
+                        <div class="dropcontent">
+                            <form action="{% url 'set_language' %}" method="post" class="language">
+                                {% csrf_token %}
+                                <button type="submit" name="language" value="fr" class="{% if LANGUAGE_CODE == 'fr' %}active{% endif %}">
+                                    <img src="https://flagcdn.com/fr.svg" alt="Saudi Arabia">
+                                </button>
+                                <button type="submit" name="language" value="ar" class="{% if LANGUAGE_CODE == 'ar' %}active{% endif %}">
+                                    <img src="https://flagcdn.com/sa.svg" alt="Saudi Arabia">
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="link_section">
+                        <a href="#" class="link_item">
+                            <i class="uil uil-setting"></i>Settings
+                        </a>
+                        <a href="#" class="link_item">
+                            <i class="uil uil-info"></i>Report
+                        </a>
+                        <a href="#" class="link_item">
+                            <i class="uil uil-question-circle"></i>Help
+                        </a>
+                        <a href="#" class="link_item">
+                            <i class="uil uil-exclamation-triangle"></i>FeedBack
+                        </a>
+                    </div>
+                    {%if request.user.is_authenticated %}
+                    <div class="menu_logout">
+                        <a href="{%url 'accounts:logout'%}" class="logout_link">
+                            <i class="uil uil-signout"></i>
+                            <p style="font-size: 14px; color:white; margin-bottom:0;">Logout</p>
+                        </a>
+                    </div>
+                    {%else%}
+                    <div class="menu_sign_up_in">
+                        <a href="{%url 'accounts:login'%}" class="singin_link">
+                            <i class="uil uil-signout"></i>
+                            <p style="color: white; font-size:16px; margin-bottom:0;">Sign in</p>
+                        </a>
+                        <a href="{%url 'accounts:register'%}" class="signup_link">
+                            <i class="uil uil-signout"></i>
+                            <p style="color: white; font-size:16px; margin-bottom:0;">Register</p>
+                        </a>
+                    </div>
+                    {%endif%}
+                    
+
+                </div>
+            </aside>
+    </main>
+</div>
+
+<script>
+    const link_sections_drop = document.querySelectorAll(".link_section.drop");
+    const up_downs = document.querySelectorAll(".sidebar .link_section .link_item .up_down");
+
+    link_sections_drop.forEach(link_section_drop => {
+        link_section_drop.addEventListener('click', () => {
+            link_section_drop.classList.toggle('active');
+
+            const upDownsInSection = link_section_drop.querySelectorAll(".link_item .up_down");
+            upDownsInSection.forEach(btn => {
+                btn.classList.toggle('active');
+            });
+        });
+    });
+
+
+
+    const menuBtn = document.querySelectorAll(".menuhover")
+    const overly = document.querySelector(".overly")
+    menuBtn.forEach(btn =>{
+        btn.addEventListener("click", ()=>{
+            document.body.classList.toggle("sidebar_hidden")
+        })
+    })
+    overly.addEventListener("click", ()=>{
+        document.body.classList.toggle("sidebar_hidden")
+    })
+
+</script>

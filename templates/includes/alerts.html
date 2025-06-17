@@ -1,0 +1,51 @@
+
+<style>
+    .message-container{
+        width: 90%;
+        max-width: 500px;
+        margin: 20px auto;
+    }
+    [class^="alert-"]{
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 20px;
+        box-shadow: white 0px 48px 100px 0px;
+        color: white;
+    }
+    .alert-success{
+        background-color: rgb(16, 185, 129);
+    }
+    .alert-danger{
+        background-color:  rgb(239, 68, 68);
+    }
+    .message-container h5{
+        text-align: center;
+        margin-bottom: 0;
+        color: white;
+    }
+</style>
+
+<div class="message-container">
+    {% if messages %}
+        {% for message in messages %}
+            <div id="message" class="x">
+                <div {% if message.tags %}class="alert-{{ message.tags }}"{% endif %} role="alert">
+                    {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Error: {% endif %}
+                     <h5> {{ message }}</h5>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function(){
+        setTimeout(function(){
+            $('.x').fadeOut('slow');
+        }, 3000);
+    });
+</script>  

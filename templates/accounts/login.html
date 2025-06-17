@@ -1,0 +1,57 @@
+{%extends 'base.html'%}
+{%load static%}
+{%block title%}Login{%endblock%}
+
+{%block content%}
+{% if request.GET.command == 'verification' %}
+<div class="alert">
+    <div class="alert_access">
+        <h4 class="alert_heading">Well Done.</h4>
+        <p>Thanks you for registration with us, have send you a verification email to you.</p>
+        <p>If already verified <a href="{%url 'accounts:login'%}"> Sign in</a></p>
+    </div>
+</div>
+{%else%}
+<div class="register">
+    <div class="form_left">
+        <p style="z-index: 999;">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 15.8334L4.16667 10L10 4.16669" stroke="#4B5563" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M15.8333 10H4.16667" stroke="#4B5563" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>    
+            <a href="{%url 'store:home' %}">Back to Home</a>
+        </p>
+        <div class="background">
+            <img style="transform: translate(0px, -50px); " src="{% static 'images/store-card-1-bg.png' %}" alt="register">
+        </div>
+    </div>
+    <div class="form_right" style="transform: translateY(40px);">
+        <h1>Login</h1>
+        {%include 'includes/alerts.html'%}
+        <form method="post" action="{%url 'accounts:login'%}">
+            {% csrf_token %}
+            <div class="form_group">
+                <label for="email">Email:</label>
+                <input name="email" type="email" id="email" placeholder="Your email">
+            </div>
+            <div class="form_group">
+                <label for="password">password:</label>
+                <div class="input_password">
+                    <input name="password" type="password" id="password" placeholder="Your first name">
+                    <i class="uil uil-eye"></i>
+                </div>
+            </div>
+            <!-- non-field errors -->
+            {% if form.non_field_errors %}
+                {% for error in form.non_field_errors %}
+                    <p class="errors"> * {{ error }}</p>
+                {% endfor %}
+            {% endif %}
+            <input type="submit" value="Create Account" class="btn_submit">
+        </form>
+        <p>You don't have an account? <a href="{%url 'accounts:register'%}">Sign Up</a></p>
+    </div>
+</div>
+{%endif%}
+
+{%endblock%}

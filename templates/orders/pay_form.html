@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <style>
+        .checkout{
+            margin-top: 100px;
+            margin: 120px auto 20px;
+        }
+        .checkout header{
+            margin-bottom: 30px;
+        }
+        .checkout svg{
+            width: clamp(20px, 6vw, 40px);
+            height: clamp(20px, 6vw, 40px);
+        }
+        .checkout .content {
+            width: 90vw;
+            margin: 0 auto;
+            gap: 20px;
+        }
+
+        .right_content {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+        }
+        .right_content h1{
+            text-align: center;
+            color: black;
+            margin-right: 10px;
+            position: relative;
+            font-size: clamp(12px, 4vw, 30px);
+        }
+        .right_content form{
+            padding: 30px 50px;
+        }
+        .right_content form .form_group{
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin-bottom: 24px;
+        }
+        .right_content form .form_group input{
+            padding: 4px 9px;
+            border-radius: 5px;
+            outline: none;
+            border: 1px solid #D1D5DB;
+            flex-grow: 1;
+            height: 42px;
+            color: black;
+            font-size: 14px;
+            line-height: 20px;
+            text-transform: capitalize;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+        .right_content form .form_group label{
+            color: #374151;
+            font-size: 16px;
+            line-height: 20px;
+            text-transform: capitalize;
+            letter-spacing: 1px;
+            font-weight: 500;
+            margin-bottom: 5px; 
+        }
+        .right_content form button{
+            width: 100%;
+            padding: 15px 0; 
+            background-color: #9333EA;
+            color: #fff;
+            border-radius: 10px;
+            border: 1px solid #9333EA;
+            cursor: pointer;
+            margin-bottom: 13px;
+            letter-spacing: 1px;
+            text-transform: capitalize; 
+            transition: all .5s ease;
+        }
+        .right_content form button:hover{
+            background-color: #fff;
+            color: #9333EA;
+            border: 1px solid #9333EA;
+        }
+        .right_content form p.errors{
+            text-align: left;
+            color: rgb(187, 32, 32);
+            margin: 0;
+            font-size: 13px;
+        }
+        @media screen and (max-width: 900px){
+            .right_content form{
+                padding: 30px 0px; 
+            }
+        }
+    </style>
+    
+    <div class="checkout">
+        <header>
+            <h1>Paymenet </h1>
+            <svg xmlns="http://www.w3.org/2000/svg" data-name="Layer 1" viewBox="0 0 24 24" id="bill">
+                <path fill="#51AD5A" d="M9.5,10.5H12a1,1,0,0,0,0-2H11V8A1,1,0,0,0,9,8v.55a2.5,2.5,0,0,0,.5,4.95h1a.5.5,0,0,1,0,1H8a1,1,0,0,0,0,2H9V17a1,1,0,0,0,2,0v-.55a2.5,2.5,0,0,0-.5-4.95h-1a.5.5,0,0,1,0-1ZM21,12H18V3a1,1,0,0,0-.5-.87,1,1,0,0,0-1,0l-3,1.72-3-1.72a1,1,0,0,0-1,0l-3,1.72-3-1.72a1,1,0,0,0-1,0A1,1,0,0,0,2,3V19a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V13A1,1,0,0,0,21,12ZM5,20a1,1,0,0,1-1-1V4.73L6,5.87a1.08,1.08,0,0,0,1,0l3-1.72,3,1.72a1.08,1.08,0,0,0,1,0l2-1.14V19a3,3,0,0,0,.18,1Zm15-1a1,1,0,0,1-2,0V14h2Z"></path>
+            </svg>
+        </header>
+        <div class="content">
+            <div class="right_content">
+                <h1>Payment Info</h1>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form_group">
+                        <label for="{{ form.pay_phone.id_for_label }}">{{ form.pay_phone.label }}:</label>
+                        {{form.pay_phone}}
+                        {% if form.pay_phone.errors %}
+                            {% for error in form.pay_phone.errors %}
+                                <p class="errors">{{ error }}</p>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="form_group">
+                        <label for="{{ form.pay_image.id_for_label }}">{{ form.pay_image.label }}:</label>
+                        {{form.pay_image}}
+                        {% if form.pay_image.errors %}
+                            {% for error in form.pay_image.errors %}
+                                <p class="errors">{{ error }}</p>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <button type="submit">Submit Order</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}

@@ -1,0 +1,320 @@
+{%extends 'base.html'%}
+
+{%load static%}
+
+{%block title%}Loyalty Home{%endblock%}
+
+{%block content%}
+
+<style>
+    /******loyality*****/
+        .loyality{
+            width: 70%;
+            margin: 0 auto;
+            margin-top: 120px;
+        }
+        .loyality_header{
+            background-color: white;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 100px;
+            padding: 20px 40px;
+            border: 1px solid  rgba(140,140,140,0.07843);
+            box-shadow: 0px 4px 8px 0px rgba(100, 219, 255, 0.078),0px 4px 8px 0px rgba(140,140,140,0.07843);
+        }
+        .loyality_header .user_info{
+            display: flex;
+            align-items: center;
+        }
+        .loyality_header .user_info img{
+            width: 150px;
+            height: 150px;
+            background-color: #0082c31e;
+            border-radius: 50%;
+            margin-right: 30px;
+        }
+        .loyality_header .user_info .info_persona p{
+            font-size: 17px;
+            letter-spacing: .5px;
+            margin-bottom: 3px;
+            font-weight: 600;
+            color: rgba(0, 0, 0, 0.699);
+
+        }
+        .user_info .info_persona p.name{
+            color: black;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+        .loyality_header .points{
+            display: flex;
+            gap: 20px; 
+        }
+        .loyality_header .points .title{
+            font-weight: 800;
+            font-size: 19px; 
+            color: #000000c7; 
+            letter-spacing: .6px;
+        }
+        .loyality_header .points .value{
+            border: 1px solid #0082C3;
+            padding: 5px  12px;
+            border-radius: 12px;
+            background-color: #0082C3;
+            color: white;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+        .loyality .loyalty_offers{
+            margin: 20px auto;
+        }
+        .loyalty_offers .cards{
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        .loyalty_offers .cards .card{
+            text-decoration: none;
+            color: black;
+            background-color: white;
+            border: 1px solid rgba(245, 245, 245, 0.078);
+            border-radius: 20px;
+            height: 200px;
+            padding: 20px 10px;
+            border: 1px solid  rgba(140,140,140,0.07843);
+            box-shadow: 0px 4px 8px 0px rgba(100, 219, 255, 0.078),0px 4px 8px 0px rgba(140,140,140,0.07843);
+            transition: all .3s ease;
+        }
+        .loyalty_offers .cards:hover > :not(:hover){
+            background-color: rgba(255, 255, 255, 0.078);
+            border: 1px solid rgba(104, 104, 104, 0.078);
+            filter: blur(2px);
+            opacity: .5;
+            box-shadow: 0px 4px 8px 0px rgba(100, 219, 255, 0.078),0px 4px 8px 0px rgba(51, 51, 51, 0.078);
+        }
+        .cards .card img{
+            width: 80px;
+            height: 80px;
+            margin-bottom: 10px;
+        }
+        .cards .card p{
+            color: black;
+            font-weight: 700;
+            letter-spacing: 3px; 
+        }
+        .loyality .more_details{
+            margin-top: 30px;
+            background-color: white;
+            border-radius: 30px;
+            padding: 30px 40px; 
+            border: 1px solid  rgba(5, 5, 5, 0.078);
+            box-shadow: 0px 4px 8px 0px rgba(100, 219, 255, 0.078),0px 4px 8px 0px rgba(140,140,140,0.07843);
+        }
+        .loyality .more_details .dropdown{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            cursor: pointer;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.24); 
+            border-radius: 10px;  
+        }
+        .more_details .dropdown p{
+            font-size: 21px;
+            font-weight: 500;
+            letter-spacing: .2px;
+            margin-bottom: 0;
+            
+        }
+        .more_details .dropdown svg{
+            width: 30px;
+            height: 30px; 
+            stroke: black;
+            display: none;
+        }
+        .more_details .dropdown svg.active{
+            display: block;
+        }
+        .loyality .dropcontent{
+            display: none;
+            transition: display 1s ease; 
+        }
+        .loyality .dropcontent.active{
+            display: block;
+        }
+        .loyality .dropcontent .background_image{
+            height: 400px; 
+            width: auto;
+            margin-top: 20px;
+            border-radius: 20px;
+            background-image: url("{%static 'images/loyalty_1.webp'%}");
+            background-position: center;
+            background-size: cover;
+            position: relative;
+        }
+        .dropcontent .background_image .text{
+            position: absolute;
+            bottom: 50px;
+            left: 20px; 
+        }
+        .background_image .text h1{
+            color: white;
+            letter-spacing: 1px; 
+            padding: 0 20px; 
+            white-space: pre-line;
+        }
+        .background_image .text p{
+            color: white; 
+            padding: 0 20px;
+            font-weight: 200;
+            font-size: 14px;  
+        }
+        .background_image .text p span{
+            font-weight: 600;
+            font-size: 16px;
+        }
+        /******loyality*****/
+        @media only screen and (max-width: 1200px) {
+            .loyality{
+                width: 80%;
+            }
+            .loyality .loyality_header{
+                gap: 100px; 
+                padding: 20px 20px;
+            }
+            .loyalty_offers .cards{
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        @media only screen and (max-width: 900px) {
+            .loyality{
+                width: 80%;
+            }
+            .loyality .loyality_header{
+                gap: 10px;  
+                padding: 20px 10px;
+            }
+            .loyalty_offers .cards{
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media only screen and (max-width: 768px) {
+            .loyality{
+                width: 90%;
+            }
+            .loyality_header{
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+                padding: 20px 0px;
+            }  
+            .loyality_header .user_info{
+                display: flex;
+                align-items: center;
+            }
+            .loyality_header .user_info img{
+                width: 120px;
+                height: 120px;
+                margin-right: 10px;
+            }
+            .loyality_header .user_info .info_persona p{
+                font-size: 15px;
+
+            }
+            .loyality_header .points{
+                align-items: center;
+                gap: 10px; 
+            }
+            .loyality_header .points .title{
+                font-size: 17px; 
+            }
+            .loyality_header .points .value{
+                font-size: 14px; 
+            } 
+            .loyalty_awards .awards{
+                grid-template-columns: 1fr;
+            }
+            .loyalty_offers .cards{
+                grid-template-columns: repeat(1, 1fr);
+            }
+        }
+</style>
+
+<div class="loyality">
+    <div class="loyality_header">
+        <div class="user_info">
+            <img src="{%static 'images/Sample_User_Icon.png'%}" alt="">
+            <div class="info_persona">
+                <p class="name">{{user.get_full_name}}</p>
+                <p class="email">{{user.email}}</p>
+                <p class="phone">{{user.phone_number}}</p>
+            </div>
+        </div>
+        <div class="points">
+            <p class="title">Solde de points:</p>
+            <p class="value">{{points.points}} pts</p>
+        </div>
+    </div>
+    <div class="loyalty_offers">
+        <div class="cards">
+            <a href="" class="card">
+                <img src="{% static 'images/historique-bleu.png'%}" alt="">
+                <p>Historique de mes poinst</p>
+            </a>
+            <a href="{%url 'loyalty:rewards_gained'%}" class="card">
+                <img src="{% static 'images/gift.png'%}" alt="">
+                <p>Mes recompenses</p>
+            </a>
+            <a href="{%url 'loyalty:rewards_list'%}" class="card">
+                <img src="{% static 'images/badge.png'%}" style="width: 100px;" alt="">
+                <p>Recompenses a debloquer</p>
+            </a>
+            <a href="#" class="card">
+                <img src="{% static 'images/base.png'%}" alt="">
+                <p>Gagnez plus de points</p>
+            </a>
+        </div>
+    </div>
+    <div class="more_details">
+        <div class="dropdown">
+            <p>A propos du programme</p>
+            <svg class="down_arrow active" xmlns="http://www.w3.org/2000/svg" data-name="Layer 1" viewBox="0 0 24 24" id="arrow-down">
+                <path fill="#565656" d="M17.71,11.29a1,1,0,0,0-1.42,0L13,14.59V7a1,1,0,0,0-2,0v7.59l-3.29-3.3a1,1,0,0,0-1.42,1.42l5,5a1,1,0,0,0,.33.21.94.94,0,0,0,.76,0,1,1,0,0,0,.33-.21l5-5A1,1,0,0,0,17.71,11.29Z"></path>
+            </svg>
+            <svg class="up_arrow" xmlns="http://www.w3.org/2000/svg" data-name="Layer 1" viewBox="0 0 24 24" id="arrow-up">
+                <path fill="#565656" d="M17.71,11.29l-5-5a1,1,0,0,0-.33-.21,1,1,0,0,0-.76,0,1,1,0,0,0-.33.21l-5,5a1,1,0,0,0,1.42,1.42L11,9.41V17a1,1,0,0,0,2,0V9.41l3.29,3.3a1,1,0,0,0,1.42,0A1,1,0,0,0,17.71,11.29Z"></path>
+            </svg>
+        </div>
+        <div class="dropcontent">
+            <div class="background_image" data-bgImageUrl='{% static "images/loyalty_1.webp" %}'>
+                <div class="text">
+                    <h1>Decouvrez Notre Nouveau programme de fidelite !
+                    </h1>
+                    <p>Avec votre compte Senuoy, vous pouvez des maintent <span>accumuler des points</span> pour <span>vous recevoir des reduction</span> sur vox achats</p>
+                </div>
+            </div>
+            ******add more details about the program
+        </div>
+    </div>
+</div>
+
+<script>
+    /**more_details**/
+    const down_arrow   = document.querySelector('.loyality .more_details .dropdown svg.down_arrow')
+    const up_arrow     = document.querySelector('.loyality .more_details .dropdown svg.up_arrow')
+    const dropcontent  = document.querySelector('.loyality .more_details .dropcontent')
+    const dropdown     = document.querySelector('.loyality .more_details .dropdown')
+
+    dropdown.addEventListener('click',()=>{
+        dropcontent.classList.toggle('active')
+        down_arrow.classList.toggle('active')
+        up_arrow.classList.toggle('active')
+    })
+    /**more_details**/
+   
+</script>
+
+
+{%endblock%}

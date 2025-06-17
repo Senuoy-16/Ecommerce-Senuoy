@@ -1,0 +1,451 @@
+{%extends 'base.html'%}
+{%load static%}
+
+{%block title%}Cart{%endblock%}
+{%block content%}
+    <style>
+        .wishlist{
+            margin-top: 100px;
+            margin: 120px auto 30px;
+        }
+        .wishlist h1{
+            text-align: center;
+            color: black;
+            margin-right: 10px;
+            position: relative;
+            font-size: clamp(12px, 4vw, 40px);
+        }
+        .wishlist header{
+            margin-bottom: 30px;
+        }
+        .wishlist svg{
+            width: clamp(12px, 4vw, 40px);
+            height: clamp(12px, 4vw, 40px);
+        }
+        .wishlist_table{
+            width: 90%;
+            margin: 0 auto;
+            border-radius: 5px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            text-align: left;
+            font-size: clamp(10px, 2vw, 16px);
+        }
+        th, td {
+          padding: 16px;
+          border-bottom: 1px solid #ddd;
+        }
+        th {
+          color: #666;
+          font-size: 14px;
+        }
+        td.panier_vide{
+            font-size: 32px;
+            font-weight: 600;
+            letter-spacing: -.003em;
+            color: #6e6e73;
+            text-align: center;
+            padding: 40px 0;
+        }
+        .product_info{
+            display: flex;
+            align-items: center;
+            gap:clamp(2px, 1vw, 10px);
+            font-size: clamp(4px, 2vw, 16px);
+        }
+        .product_info img{
+          width: clamp(25px, 6vw, 50px);
+          height: clamp(25px, 6vw, 50px);
+          border: 1px solid #ddd;
+          padding: 5px;
+          border-radius: 10px;
+        }
+        .quantity button,
+        .quantity input{
+            width: clamp(10px, 3vw, 30px);
+            height: clamp(8px, 3vw, 30px);
+            border: 1px solid #ccc;
+            background: transparent;
+            cursor: pointer;
+            outline: none;
+            text-align: center;
+            transition: all .3s ease;
+        }
+        .quantity button:hover{
+            background-color: #ddd;
+        }
+        .price ins {
+          color: black;
+          text-decoration: none;
+          margin-left: 5px;
+        }
+        .price del{
+            color: #e74c3c;
+        } 
+        .stock {
+            color: #27ae60;
+        }
+        .actions .btns{
+            display: flex;
+        }
+        .actions button{
+            height: 30px;
+            padding: 5px 10px;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            font-size: clamp(8px, 2vw, 12px);
+            font-weight: 600;
+            color: white;
+            background-color: black;
+            margin: 0 5px;
+            border: 1px solid transparent;
+            transition: all .3s ease;
+        }
+        .actions button.view,
+        .actions button.delete,
+        .actions button.cart{
+          background-color: transparent;
+          border: 2px solid #ddd;
+          width: 30px;
+          padding: 0;
+        }
+        .actions button.add_to_cart:hover{
+            background-color: transparent;
+            color: black;
+            border: 1px solid black;
+        }
+        .actions button.cart{
+            display: none;
+        }
+        .actions button.view:hover svg,
+        .actions button.cart:hover svg,
+        .actions button.delete:hover svg{
+            transform: scale(1.1);
+        }
+        .actions svg{
+            width: 20px;
+            height: 20px;
+        }
+        .sku {
+          color: #999;
+          font-size: 13px;
+        }
+
+        /*Payment*/
+        .payement{
+            display: flex;
+            align-items: flex-end;
+            margin: 0 auto;
+            width: max-content;
+            padding: 30px ;
+            gap: 40px;
+        }
+        .form_coupons{
+            width: 384px;
+            background-color: white;
+            padding: 16px;
+        }
+        .form_coupons p{
+            font-size: 14px;
+            text-transform: capitalize;
+            line-height: 24px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .form_coupons span{
+            margin-left: 8px;
+            color: black;
+        }
+        .payement svg{
+            width: 30px;
+            height: 30px;
+        }
+        .form_coupons svg path{
+            stroke: black;
+        }
+        .form_coupons form{
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .form_coupons form input{
+            outline: none;
+            color: black;
+            height: 42px;
+            padding: 9px;
+            border: 1px solid #D1D5DB;
+            border-radius: 10px;
+            font-size: 16px;
+            letter-spacing: 2px;
+            font-weight: 900;
+        }
+        .form_coupons form input::placeholder{
+            font-weight: normal;
+        }
+        .form_coupons form button{
+            padding: 9px;
+            border-radius: 10px;
+            outline: none;
+            border: 1px solid transparent;
+            color: white;
+            font-size: 16px;
+            background-color: #1F2937;
+            cursor: pointer;
+            transition: all .6s ease; 
+        }
+        .form_coupons form button:hover{
+            background-color: white;
+            border-color: #1F2937;
+            color: #1F2937;
+            box-shadow: #1f293728 0px 7px 29px 0px;
+        }
+        .summary_card h1{
+            font-size: 21px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+            font-weight: 700; 
+        }
+        .summary_card p span{
+            font-size: 21px;
+            margin-bottom: 10px;
+            color: black;
+            text-transform: capitalize;
+        }
+        .summary_card p{
+            font-size: 16px;
+            line-height: 21px;
+        }
+        .summary_card a{
+            text-decoration: none;
+            padding: 9px 12px; 
+            border-radius: 10px;
+            outline: none;
+            border: 1px solid transparent;
+            color: white;
+            font-size: 16px;
+            background-color: #16A34A;
+            cursor: pointer;
+            transition: all .6s ease; 
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .summary_card a:hover{
+            background-color: white;
+            border-color: #16A34A;
+            color: #16A34A;
+        }
+        .summary_card a:hover svg path{
+            stroke: #16A34A;
+        }
+        
+        /*Payment*/
+
+        @media screen and (max-width: 768px){
+            .wishlist_table{
+                width: 100%;
+                padding: 0 10px;
+            }
+            th, td {
+                padding: 5px;
+            }
+            .actions button.cart{
+                display: block;
+            }
+            .actions button.add_to_cart{
+                display: none;
+            }
+            .payement{
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .payement .summary_card{
+                align-self: center;
+            }
+        }
+    </style>
+    <section class="wishlist">
+        <header> 
+            <h1>Panier</h1>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="shopping-cart-alt"><path fill="#4F9649" d="M21.5,15a3,3,0,0,0-1.9-2.78l1.87-7a1,1,0,0,0-.18-.87A1,1,0,0,0,20.5,4H6.8L6.47,2.74A1,1,0,0,0,5.5,2h-2V4H4.73l2.48,9.26a1,1,0,0,0,1,.74H18.5a1,1,0,0,1,0,2H5.5a1,1,0,0,0,0,2H6.68a3,3,0,1,0,5.64,0h2.36a3,3,0,1,0,5.82,1,2.94,2.94,0,0,0-.4-1.47A3,3,0,0,0,21.5,15Zm-3.91-3H9L7.34,6H19.2ZM9.5,20a1,1,0,1,1,1-1A1,1,0,0,1,9.5,20Zm8,0a1,1,0,1,1,1-1A1,1,0,0,1,17.5,20Z"></path></svg>
+        </header>
+        <div class="wishlist_table">
+            <table>
+                <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                {%if cart|length > 0 %}
+                    {%for item in cart%}
+                        <tr>
+                            <td class="product_info">
+                            <img src="{{ item.variation.variation_images.first.image.image.url }}" alt="Product">
+                            <div>
+                                {{ item.variation.product.name }}<br>
+                                <span class="sku">SKU: {{ item.variation.sku }}</span>
+                            </div>
+                            </td>
+                            <td class="quantity" data-variation-id="{{ item.variation.id }}">
+                                <button class="qty_minus">-</button>
+                                <input type="text" value="{{ item.quantity }}" readonly data-quantity="{{item.variation.quantity}}">
+                                <button class="qty_plus">+</button>
+                            </td>
+                            <td class="price">
+                                {%if item.sale_price != item.original_price%}
+                                    <del>$<span>{{item.total_original_price}}</span></del> <ins>$ <span>{{item.total_sale_price}}</span></ins>
+                                {%else%}
+                                    <del></del> <ins>$<span>{{item.total_original_price}}</span></ins>
+                                {%endif%}
+                            </td>
+                            <td class="stock">
+                                <span>✓ {{ item.variation.quantity }} in stock</span> 
+                            </td>
+                            <td class="actions">
+                                <div class="btns">
+                                    <button class="view">
+                                        <a href="{%url 'store:product_detail' item.variation.id%}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="eye"><path fill="#000000" d="M21.92,11.6C19.9,6.91,16.1,4,12,4S4.1,6.91,2.08,11.6a1,1,0,0,0,0,.8C4.1,17.09,7.9,20,12,20s7.9-2.91,9.92-7.6A1,1,0,0,0,21.92,11.6ZM12,18c-3.17,0-6.17-2.29-7.9-6C5.83,8.29,8.83,6,12,6s6.17,2.29,7.9,6C18.17,15.71,15.17,18,12,18ZM12,8a4,4,0,1,0,4,4A4,4,0,0,0,12,8Zm0,6a2,2,0,1,1,2-2A2,2,0,0,1,12,14Z"></path></svg>
+                                        </a>
+                                    </button>
+                                    <button class="delete">
+                                        <a href="{%url 'cart:remove_from_cart' item.variation.id %}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="trash-alt"><path fill="#000000" d="M10,18a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,10,18ZM20,6H16V5a3,3,0,0,0-3-3H11A3,3,0,0,0,8,5V6H4A1,1,0,0,0,4,8H5V19a3,3,0,0,0,3,3h8a3,3,0,0,0,3-3V8h1a1,1,0,0,0,0-2ZM10,5a1,1,0,0,1,1-1h2a1,1,0,0,1,1,1V6H10Zm7,14a1,1,0,0,1-1,1H8a1,1,0,0,1-1-1V8H17Zm-3-1a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,14,18Z"></path></svg>
+                                        </a>
+                                    </button>
+                                    <form action="{%url 'cart:add_from_form' item.variation.id%}" method="post" class="form_add_cart">
+                                        {%csrf_token%}
+                                        <input type="hidden"
+                                            name="quantity"
+                                            min="1"
+                                            value="{{item.quantity}}"
+                                            class="form_control"
+                                            readonly>
+                                        <input type="hidden" name="override" value="True">
+                                        <button class="delete" type="submit">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="bright"><path fill="#000000" d="M12,8a4,4,0,1,0,4,4A4,4,0,0,0,12,8Zm0,6a2,2,0,1,1,2-2A2,2,0,0,1,12,14Zm9.71-2.71L19.36,9V5.64a1,1,0,0,0-1-1H15.05L12.71,2.29a1,1,0,0,0-1.42,0L9,4.64H5.64a1,1,0,0,0-1,1V9L2.29,11.29a1,1,0,0,0,0,1.42l2.35,2.34v3.31a1,1,0,0,0,1,1H9l2.34,2.35a1,1,0,0,0,1.42,0l2.34-2.35h3.31a1,1,0,0,0,1-1V15.05l2.35-2.34A1,1,0,0,0,21.71,11.29Zm-4.05,2.64a1,1,0,0,0-.3.71v2.72H14.64a1,1,0,0,0-.71.3L12,19.59l-1.93-1.93a1,1,0,0,0-.71-.3H6.64V14.64a1,1,0,0,0-.3-.71L4.41,12l1.93-1.93a1,1,0,0,0,.3-.71V6.64H9.36a1,1,0,0,0,.71-.3L12,4.41l1.93,1.93a1,1,0,0,0,.71.3h2.72V9.36a1,1,0,0,0,.3.71L19.59,12Z"></path></svg>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    {%endfor%}
+                {%else%}
+                        <tr>
+                            <td class="panier_vide" colspan="5">
+                                Oops!😊 Votre panier est encore vide.
+                            </td>
+                        </tr>
+                {%endif%}
+                </tbody>
+            </table>
+        </div>
+        {%if cart|length > 0 %}
+            <div class="payement">
+                <div class="form_coupons">
+                    <p class="title">
+                        <svg viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1.66666 8C2.3297 8 2.96558 8.26339 3.43442 8.73223C3.90326 9.20107 4.16666 9.83696 4.16666 10.5C4.16666 11.163 3.90326 11.7989 3.43442 12.2678C2.96558 12.7366 2.3297 13 1.66666 13V14.6667C1.66666 15.1087 1.84225 15.5326 2.15481 15.8452C2.46737 16.1577 2.8913 16.3333 3.33332 16.3333H16.6667C17.1087 16.3333 17.5326 16.1577 17.8452 15.8452C18.1577 15.5326 18.3333 15.1087 18.3333 14.6667V13C17.6703 13 17.0344 12.7366 16.5656 12.2678C16.0967 11.7989 15.8333 11.163 15.8333 10.5C15.8333 9.83696 16.0967 9.20107 16.5656 8.73223C17.0344 8.26339 17.6703 8 18.3333 8V6.33333C18.3333 5.8913 18.1577 5.46738 17.8452 5.15482C17.5326 4.84226 17.1087 4.66666 16.6667 4.66666H3.33332C2.8913 4.66666 2.46737 4.84226 2.15481 5.15482C1.84225 5.46738 1.66666 5.8913 1.66666 6.33333V8Z" stroke="#374151" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M10.8333 4.66666V6.33333" stroke="#374151" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M10.8333 14.6667V16.3333" stroke="#374151" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M10.8333 9.66666V11.3333" stroke="#374151" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>Apply Coupon</span>                    
+                    </p>
+                    <form action="{%url 'coupons:coupon_apply'%}" method="post">
+                        {%csrf_token%}
+                        {{coupon_apply_form.code}}
+                        <button type="submit">Apply</button>
+                    </form>
+                </div>
+                <div class="summary_card">
+                    <h1>Summary Card:</h1>
+                    <p><span>Total: </span>${{cart.get_total_discounted_price}}</p>
+                    {%if cart.coupon%}
+                    <p style="color: #db1616;"><span style="color: #db1616;">Discount price: </span>${{cart.get_total_price_after_coupons|floatformat:2}}</p>
+                    {%endif%}
+                    <a href="{%url 'orders:order_create'%}">
+                        <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip0_1_169)">
+                            <path d="M17.6042 4.66667H4.27084C3.35036 4.66667 2.60417 5.41286 2.60417 6.33334V14.6667C2.60417 15.5871 3.35036 16.3333 4.27084 16.3333H17.6042C18.5246 16.3333 19.2708 15.5871 19.2708 14.6667V6.33334C19.2708 5.41286 18.5246 4.66667 17.6042 4.66667Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M2.60417 8.83333H19.2708" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </g>
+                            <defs>
+                            <clipPath id="clip0_1_169">
+                            <rect width="20" height="20" fill="white" transform="translate(0.9375 0.5)"/>
+                            </clipPath>
+                            </defs>
+                        </svg>
+                        Proceed to Paymenet   
+                    </a>
+                </div>
+            </div>
+        {%endif%}
+    </section>
+    <script>
+        /**Quantity btns */
+        /** Quantity buttons */
+        const qts_variation = document.querySelectorAll("td.quantity");
+        qts_variation.forEach(qt_variation => {
+            let minus_btn = qt_variation.querySelector(".qty_minus");
+            let  plus_btn = qt_variation.querySelector(".qty_plus");
+            let     input = qt_variation.querySelector("input");
+            let     stock = parseInt(input.dataset.quantity);
+
+            // Get prices
+            const priceCell = qt_variation.parentElement.querySelector("td.price");
+            const del_price_span = priceCell.querySelector("del span");
+            const ins_price_span = priceCell.querySelector("ins span");
+
+            // Store the unit prices once
+            const unitOriginalPrice = del_price_span ? parseFloat(del_price_span.innerHTML) / parseInt(input.value) : null;
+            const unitSalePrice = parseFloat(ins_price_span.innerHTML) / parseInt(input.value);
+
+            minus_btn.addEventListener("click", () => {
+                let currentQty = parseInt(input.value);
+                if (currentQty > 1) {
+                    currentQty--;
+                    input.value = currentQty;
+
+                    if (del_price_span) {
+                        del_price_span.innerHTML = (unitOriginalPrice * currentQty).toFixed(2);
+                    }
+                    ins_price_span.innerHTML = (unitSalePrice * currentQty).toFixed(2);
+
+                    let form_control = minus_btn.closest('tr').querySelector('.form_control');
+                    form_control.value = input.value;
+                }
+            });
+
+            plus_btn.addEventListener("click", () => {
+                let currentQty = parseInt(input.value);
+                if (currentQty < stock) {
+                    currentQty++;
+                    input.value = currentQty;
+
+                    if (del_price_span) {
+                        del_price_span.innerHTML = (unitOriginalPrice * currentQty).toFixed(2);
+                    }
+                    ins_price_span.innerHTML = (unitSalePrice * currentQty).toFixed(2);
+
+                    let form_control = plus_btn.closest('tr').querySelector('.form_control');
+                    form_control.value = input.value;
+                }
+            });
+
+        });
+        /**Quantity btns */
+    </script>
+{%endblock%}

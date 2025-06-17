@@ -1,0 +1,179 @@
+{%extends 'base.html'%}
+{%load static%}
+{%load i18n%}
+
+{%block title%}Store{%endblock%}
+
+{%block content%}
+<style>
+    .center_pagination {
+        text-align: center;
+        margin-top: 50px;
+    }
+
+    .pagination {
+        display: inline-block;
+    }
+
+    .pagination a {
+        color: black;
+        float: left;
+        padding: 8px 16px;
+        text-decoration: none;
+        transition: background-color .3s;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        margin: 0 4px;
+    }
+
+    .pagination a.active {
+        background-color: #693EFF;
+        color: white;
+        border: 1px solid #693EFF;
+    }
+
+    .pagination a:hover:not(.active) {background-color: #ddd;}
+</style>
+
+<div class="container" style="margin-top: 120px;">
+    <!-- Offres -->
+    <div class="offres">
+        <div class="anounce">
+            <div class="promoContent">
+                <h1>{%trans "Offre spéciale Senuoy 2025"%}</h1>
+                <p>20%  {%trans "de remise avec le code"%}<span>"Senuoy20"</span></p>
+            </div>
+            <div  class="promoChrono">
+                <div class="days">
+                    <span class="number"></span>
+                    <span class="alphabet">{%trans "DAYS"%}</span>
+                </div>
+                <div class="hours">
+                    <span class="number"></span>
+                    <span class="alphabet">{%trans "hours"%}</span>
+                </div>
+                <div class="minutes">
+                    <span class="number"></span>
+                    <span class="alphabet">{%trans "minutes"%}</span>
+                </div>
+                <div class="secondes">
+                    <span class="number"></span>
+                    <span class="alphabet">{%trans "secondes"%}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Offres -->
+
+    <div class="links_products">
+        <h1>
+            <span>{%trans "Store."%}</span>
+            {%trans "Pour acheter vos produits préférés, c’est ici."%}
+        </h1>
+        <div class="slider">
+            <button class="previous">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36">
+                    <path d="M21.559,12.062 L15.618,17.984 L21.5221,23.944 C22.105,24.533 22.1021,25.482 21.5131,26.065 C21.2211,26.355 20.8391,26.4999987 20.4571,26.4999987 C20.0711,26.4999987 19.6851,26.352 19.3921,26.056 L12.4351,19.034 C11.8531,18.446 11.8551,17.4999987 12.4411,16.916 L19.4411,9.938 C20.0261,9.353 20.9781,9.354 21.5621,9.941 C22.1471,10.528 22.1451,11.478 21.5591,12.062 L21.559,12.062 Z"></path>
+                </svg>
+            </button>
+            <div class="list_links">
+                {%for category in categories%}
+                <a href="{%url 'store:product_by_category' category.slug %}" class="link">
+                    <img src="{{category.image.url}}" alt="store-card-1">
+                    <p>{{category.slug}}</p>
+                </a>
+                {%endfor%}
+            </div>
+            <button class="next">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36">
+                    <path d="M23.5587,16.916 C24.1447,17.4999987 24.1467,18.446 23.5647,19.034 L16.6077,26.056 C16.3147,26.352 15.9287,26.4999987 15.5427,26.4999987 C15.1607,26.4999987 14.7787,26.355 14.4867,26.065 C13.8977,25.482 13.8947,24.533 14.4777,23.944 L20.3818,17.984 L14.4408,12.062 C13.8548,11.478 13.8528,10.5279 14.4378,9.941 C15.0218,9.354 15.9738,9.353 16.5588,9.938 L23.5588,16.916 L23.5587,16.916 Z"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!--Best sellers-->
+    <section class="product_list" style="padding-bottom: 60px;">
+        <div class="title" style="margin-bottom: 40px;">
+            <h1 class="header__title">Most Popular Products</h1>
+        </div>
+        <div class="most_popular_products" data-keys="{{cart.get_variation_ids}}">
+            {%for product in products%}
+            <div class="product_card" data-product-id="1">
+                <div class="product_card__container">
+                    <a 
+                        data-variation_id="{{product.variations.first.id}}" 
+                        class='product_card__btn cart' 
+                        data-tooltip="add to cart"
+                    >
+                        <span class="material-symbols-rounded">shopping_bag</span>
+                    </a>
+                    <div class="product_card__btn fav" data-tooltip="add to wishlist">
+                        <span class="material-symbols-rounded">favorite</span>
+                    </div>
+                    <a href="{%url 'store:product_detail' product.variations.first.id %}" class="image_card">
+                        <div class="product_card__img">
+                            <img src="{{product.variations.first.variation_images.first.image.image.url}}" alt="airpod">
+                        </div>
+                    </a>
+                </div>
+                <div class="product_card__description">
+                    <div class="product_card__text">{{product.slug}}</div>
+                    <div class="product_card__more">{{product.description|truncatechars:80}}</div>
+                    {% with price=product.variations.first %}
+                        {% if price.sale_price != price.original_price and price.sale_price != ''%}
+                            <div class="product_card__price">
+                                <span class="original_price">${{ price.original_price }}</span>
+                                <span class="sale_price">${{ price.sale_price }}</span>
+                            </div>
+                        {% else %}
+                            <div class="product_card__price">
+                                ${{ price.original_price }}
+                            </div>
+                        {% endif %}
+                    {% endwith %}
+                </div>
+                <div class="product_card__color">
+                    {% for variation in product.variations.all %} 
+                        {% with variation.variation_images.first.image.image.url as img_url %}
+                        <button 
+                            class="product_card__btn-radio {% if forloop.first %}selected{% endif %}" 
+                            data-img="{{ img_url }}"
+                            data-original_price="{{ variation.original_price }}"
+                            data-sale_price="{{ variation.sale_price }}"
+                            data-product_card_id="{{ product.id }}"
+                            data-variation_id="{{variation.id}}"
+                        >
+                            <span data-bg_color="{{ variation.color.code }}" class="color_choices"></span>
+                        </button>
+                        {% endwith %}
+                    {% endfor %}
+                </div>
+            </div>
+            {%endfor%}
+        </div>
+        <div class="center_pagination">
+            <div class="pagination">
+                {% if page_obj.has_previous %}
+                    <a href="?page={{ page_obj.previous_page_number }}">&laquo;</a>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                    {% if num == page_obj.number %}
+                        <a class="active" href="?page={{ num }}">{{ num }}</a>
+                    {% else %}
+                        <a href="?page={{ num }}">{{ num }}</a>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">&raquo;</a>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+    <!--Best sellers-->
+</div>
+
+<script src="{%static 'js/home.js'%}"></script>
+{%endblock%}

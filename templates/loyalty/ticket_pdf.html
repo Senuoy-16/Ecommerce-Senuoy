@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Cinema Ticket</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@700&family=Open+Sans&display=swap');
+
+  body {
+    background: #f0f0f3;
+    font-family: 'Open Sans', sans-serif;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .ticket {
+    background: #fff;
+    width: 600px;
+    border-radius: 15px;
+    box-shadow:
+      0 8px 20px rgba(0,0,0,0.2),
+      inset 0 0 40px #f7f7f7;
+    display: flex;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Perforated edges with dotted border */
+  .ticket::before,
+  .ticket::after {
+    content: "";
+    position: absolute;
+    top: 20px;
+    bottom: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: #f0f0f3;
+    z-index: 2;
+  }
+  .ticket::before {
+    left: -20px;
+    box-shadow: inset 10px 0 10px -10px #bbb;
+  }
+  .ticket::after {
+    right: -20px;
+    box-shadow: inset -10px 0 10px -10px #bbb;
+  }
+
+  /* The dotted perforation line on the sides */
+  
+  .ticket .perforation-left {
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+  }
+  .ticket .perforation-right {
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+  }
+
+  /* Left stub with main info */
+  .ticket .main {
+    flex: 1 1 auto;
+    padding: 25px 20px 25px 40px;
+    position: relative;
+  }
+
+  .main h1 {
+    font-family: 'Roboto Slab', serif;
+    font-size: 28px;
+    color: #2e4053;
+    margin: 0 0 20px;
+    text-align: center;
+  }
+
+  .main .info-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #5a6572;
+    margin-bottom: 8px;
+  }
+
+  .main .info-label {
+    font-weight: 600;
+  }
+
+  /* Right stub for QR code and ticket number */
+  .ticket .stub {
+    width: 120px;
+    background: linear-gradient(135deg, #f7f7f7 40%, #a9b0bb 100%);
+    border-left: 2px dashed #aaa;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 10px;
+    position: relative;
+  }
+
+  .stub .qr-code {
+    width: 80px;
+    height: 80px;
+    background: white url('https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=CinemaTicket2025') center/contain no-repeat;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    margin-bottom: 15px;
+  }
+
+  .stub .ticket-number {
+    font-family: monospace;
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: #444;
+    border-top: 1px solid #bbb;
+    padding-top: 10px;
+    width: 100%;
+    text-align: center;
+  }
+
+  /* Additional detail at bottom */
+  .ticket .footer-note {
+    position: absolute;
+    bottom: 8px;
+    left: 40px;
+    font-size: 11px;
+    color: #999;
+    font-style: italic;
+  }
+
+</style>
+</head>
+<body>
+
+<div class="ticket">
+  <div class="perforation-left"></div>
+  <div class="main">
+    <h1> Ticket Cinema</h1>
+    <div class="info-row">
+      <div class="info-label">full name:</div><div>{{full_name}}</div>
+    </div>
+    <div class="info-row">
+      <div class="info-label">Movie name:</div><div>The Godfather</div>
+    </div>
+    <div class="info-row">
+      <div class="info-label">Date:</div><div>aout 20, 2025</div>
+    </div>
+    <div class="info-row">
+      <div class="info-label">Time:</div><div>7:30 PM</div>
+    </div>
+    <div class="info-row">
+      <div class="info-label">Cinema:</div><div>Megarama Cinema Hall 3</div>
+    </div>
+    <div class="info-row">
+      <div class="info-label">Seat:</div><div>F12</div>
+    </div>
+
+    <div class="footer-note">* Please arrive 15 minutes early *</div>
+  </div>
+  <div class="perforation-right"></div>
+  <div class="stub">
+    <div class="qr-code"></div>
+    <div class="ticket-number">#{{code}}</div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,42 @@
+{%extends 'base.html' %}
+{%load static%}
+{%block title%}reward sends{%endblock%}
+{%block content%}
+<style>
+    .back_to_home{
+        width: 80%;
+        margin: auto;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .back_to_home a{
+        color: #4B5563; 
+        text-decoration: none;
+        transition: all .3s ease;
+        border-bottom: 1px solid transparent;
+    }
+    .back_to_home a:hover{
+        border-bottom: 1px solid black;
+        color: black;
+    }
+</style>
+
+<div style="margin-top: 120px;">
+    <p class="back_to_home">   
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 15.8334L4.16667 10L10 4.16669" stroke="#4B5563" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M15.8333 10H4.16667" stroke="#4B5563" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>    
+        <a href="{%url 'store:home'%}">Back to Home</a>
+    </p>
+
+    <div class="alert" style="margin-top: 0;">
+        <div class="alert_access">
+            <h4 class="alert_heading">Well Done.</h4>
+            <p>{{message}}</p>
+        </div>
+    </div>
+</div>
+{%endblock%}

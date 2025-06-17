@@ -1,0 +1,26 @@
+{% load static %}
+{%load i18n%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Senuoy{% endblock %}</title>
+    <link rel="icon" href="{%static 'images/logo_senuoy.png'%}" type="image/png">
+    
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/registre.css' %}">
+
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+</head>
+<body>
+    {% include 'includes/header.html' %}
+    
+    {% block content %}
+    {% endblock %}
+    
+    {% include 'includes/footer.html' %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</body>
+</html>

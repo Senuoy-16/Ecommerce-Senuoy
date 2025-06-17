@@ -1,0 +1,158 @@
+{%extends 'base.html'%}
+{%load static%}
+{%block title%}Order Historique{%endblock%}
+{%block content%}
+
+<style>
+    
+    /****Order****/
+        .orders_table .header{
+            margin-top: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            position: relative;
+        }
+        .orders_table .header h1{
+            text-align: center;
+            color: black;
+            margin-right: 10px;
+            position: relative;
+            font-size: clamp(12px, 4vw, 25px); 
+        }
+        .orders_table .header svg{
+            width: clamp(12px, 4vw, 30px);
+            height: clamp(12px, 4vw, 30px);
+        }
+        .orders_table .orders_list{
+            margin-top: 20px;
+        }
+        .orders_list .order{
+            width: 70%;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background-color: white;
+            margin: 0 auto 20px;
+            padding: 25px 20px;
+            border-radius: 20px;
+            box-shadow: 0px 4px 8px 0px rgba(255,100,124,0.07843),0px 4px 8px 0px rgba(140,140,140,0.07843);
+            
+        }
+        .orders_list .order p{
+            font-weight: 400;
+            font-size:17px;
+            font-family: Arial, Helvetica, sans-serif;
+            margin-bottom: 5px;
+            color: #000000d7;
+        }
+        .orders_list .order p span{
+            color: #000000d7;
+            font-weight: 700; 
+            text-transform: capitalize;
+        }
+        .orders_list .order .voir_detail{
+            background-color: black;
+            border: 1px solid transparent;
+            color: white;
+            padding:  8px 10px; 
+            border-radius: 7.5px;
+            cursor: pointer;
+            font-size: 13px;
+            text-transform: uppercase;
+            transition: all .3s ease;  
+        }
+        .orders_list .order .voir_detail:hover{
+            background-color: white;
+            color: black;
+            border: 1px solid black;
+        }
+        .orders_list .order p.status{
+            font-size: 30px;
+        }
+        .orders_list .order i{
+            font-size: 30px;
+            position: relative;
+            top: 4px;
+            font-weight: 900;  
+        }
+        .orders_table .orders_list .back_to_home{
+            width: 70%;
+            margin: auto;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .back_to_home a{
+            color: #4B5563; 
+            text-decoration: none;
+            transition: all .3s ease;
+            border-bottom: 1px solid transparent;
+        }
+        .back_to_home a:hover{
+            border-bottom: 1px solid black;
+            color: black;
+        }
+
+        .orders_list .order_vide{
+            font-size: clamp(12px, 3.5vw, 32px);
+            font-weight: 600;
+            letter-spacing: -.003em;
+            color: #6e6e73;
+            text-align: center;
+            padding: 40px 0;
+        }
+        @media screen and (max-width:768px){
+            .orders_list .order{
+                width: calc(100% - 20px);
+                display: flex;
+                justify-content: space-between;
+                margin: 12px auto;
+            }
+            .orders_list .order p{
+                font-size:14px;
+            }
+            .orders_table .orders_list .back_to_home{
+                width: 100%;
+                padding-left: 10px;
+            }
+        }
+    /****Order****/
+</style>
+
+<!--Orders-->
+<section class="orders_table">
+    <div class="header">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="shopping-cart-alt"><path fill="#4F9649" d="M21.5,15a3,3,0,0,0-1.9-2.78l1.87-7a1,1,0,0,0-.18-.87A1,1,0,0,0,20.5,4H6.8L6.47,2.74A1,1,0,0,0,5.5,2h-2V4H4.73l2.48,9.26a1,1,0,0,0,1,.74H18.5a1,1,0,0,1,0,2H5.5a1,1,0,0,0,0,2H6.68a3,3,0,1,0,5.64,0h2.36a3,3,0,1,0,5.82,1,2.94,2.94,0,0,0-.4-1.47A3,3,0,0,0,21.5,15Zm-3.91-3H9L7.34,6H19.2ZM9.5,20a1,1,0,1,1,1-1A1,1,0,0,1,9.5,20Zm8,0a1,1,0,1,1,1-1A1,1,0,0,1,17.5,20Z"></path></svg>
+        <h1>Rewards Historique</h1>
+    </div>
+    <div class="orders_list">
+        {%if rewards%}
+            <p class="back_to_home">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 15.8334L4.16667 10L10 4.16669" stroke="#4B5563" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M15.8333 10H4.16667" stroke="#4B5563" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>    
+                <a href="{% url 'loyalty:home_loyalty' %}">Back</a>
+            </p>
+            {%for reward in rewards%}
+            <div class="order">
+                <img src="{{reward.reward.image.url}}" alt="" width="90px" height="90px">
+                <div class="commande">
+                    <p class="order_id"><span>reward: </span>{{reward.id}}</p>
+                    <p class="created_at">{{reward.redeemed_at}}</p>
+                </div>
+                <p class="qts:"><span>{{reward.reward.title}}</span></p>
+                <p class="qts:">Owner: <span>{{reward.reward.owner}}</span></p>
+            </div>
+            {%endfor%}
+        {%else%}
+            <p class="order_vide" style="text-align: center;">Vous n'avez encore échangé aucune récompense.<a href="{% url 'loyalty:rewards_list' %}"> Liste des récompenses.</a></p>
+        {%endif%}
+    </div>
+</section>
+<!--Orders-->
+
+{%endblock%}

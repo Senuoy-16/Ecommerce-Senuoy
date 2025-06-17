@@ -1,0 +1,244 @@
+{%extends 'base.html'%}
+{%block title%}Update Account{%endblock%}
+{%block content%}
+<style>
+    .update_account{
+        max-width: 1200px;
+        padding: 40px;
+        width: 90%;
+        margin: 130px auto;
+        gap: 20px;
+        background-color: white;
+        border-radius: 20px;
+        box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px; 
+    }
+    .update_account h1{
+        color: #111827;
+        font-weight: bold;
+        text-align: center;
+        font-size: 19px;
+        text-transform: uppercase;
+        letter-spacing: 1px; 
+        margin-bottom: 20px;
+    }
+    .update_account p.errors{
+        text-align: left;
+        color: rgb(187, 32, 32);
+        margin: 0;
+        padding-left: 10px;
+        font-size: 12px;
+    }
+    .update_account form .form_names{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 16px;
+    }
+    form .form_group{
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        margin-bottom: 24px;
+    }
+    .form_group label{
+        color: #374151;
+        font-size: 14px;
+        line-height: 20px;
+        text-transform: capitalize;
+        letter-spacing: 1px;
+        font-weight: 500;
+        margin-bottom: 5px; 
+    }
+    .form_group .input_password{
+        position: relative;
+    }
+    .form_group .input_password input{
+        width: 100%;
+    } 
+    .form_group .input_password i{
+        color: #82868b;
+        font-size: 20px;
+        cursor: pointer;
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%); 
+    }
+    .form_group input{
+        padding: 9px;
+        border-radius: 5px;
+        outline: none;
+        border: 1px solid #D1D5DB;
+        height: 42px;
+    }
+    form button{
+        width: 100%;
+        padding: 15px 0; 
+        background-color: #9333EA;
+        color: #fff;
+        border-radius: 10px;
+        border: 1px solid #9333EA;
+        cursor: pointer;
+        margin-bottom: 13px;
+        letter-spacing: 1px;
+        text-transform: capitalize; 
+        transition: all .3s ease;
+    }
+    form button:hover{
+        background-color: #fff;
+        color: #9333EA;
+        border: 1px solid #9333EA;
+    }
+    form button.disabled, form button.disabled:hover{
+        background-color: #9233ea81;
+        border: 1px solid #9233ea81;
+        color: #fff;
+        cursor: auto;
+    }
+    #id_country,
+    #id_country::picker(select){
+        appearance: base-select;
+    }
+    #id_country{
+        padding: 9px;
+        border-radius: 5px;
+        outline: none;
+        border: 1px solid #D1D5DB;
+        height: 42px;
+    }
+    #id_country::picker(select){
+        width: 50%;
+        border: 1px solid #D1D5DB;
+    }
+</style>
+
+<div class="update_account">
+    <h1>Update Account</h1>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success" style="margin: 20px auto; color:rgb(0, 0, 0); font-size:19px;">
+            {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    <form method="post" action="" id="profile-form">
+        {% csrf_token %}
+        <div class="form_names">
+            <div class="form_group">
+                <label for="{{ form.first_name.id_for_label }}">{{ form.first_name.label }}:</label>
+                {{form.first_name}}
+                {% if form.first_name.errors %}
+                    {% for error in form.first_name.errors %}
+                        <p class="errors">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="form_group">
+                <label for="{{ form.last_name.id_for_label }}">{{ form.last_name.label }}:</label>
+                {{form.last_name}}
+                {% if form.last_name.errors %}
+                    {% for error in form.last_name.errors %}
+                        <p class="errors">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+        <div class="form_names">
+            <div class="form_group">
+                <label for="{{ form.country.id_for_label }}">{{ form.country.label }}:</label>
+                {{form.country}}
+                {% if form.country.errors %}
+                    {% for error in form.country.errors %}
+                        <p class="errors">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="form_group">
+                <label for="{{ form.phone_number.id_for_label }}">{{ form.phone_number.label }}:</label>
+                {{form.phone_number}}
+                {% if form.phone_number.errors %}
+                    {% for error in form.phone_number.errors %}
+                        <p class="errors">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+        <div class="form_names">
+            <div class="form_group">
+                <label for="{{ form.email.id_for_label }}">{{ form.email.label }}:</label>
+                {{form.email}}
+                {% if form.email.errors %}
+                    {% for error in form.email.errors %}
+                        <p class="errors">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="form_group">
+                <label for="{{ form.username.id_for_label }}">{{ form.username.label }}:</label>
+                {{form.username}}
+                {% if form.username.errors %}
+                    {% for error in form.username.errors %}
+                        <p class="errors">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+        <!-- non-field errors -->
+        {% if form.non_field_errors %}
+            {% for error in form.non_field_errors %}
+                <p class="errors"> * {{ error }}</p>
+            {% endfor %}
+        {% endif %}
+
+        <button type="submit" id="submit-btn" >Update Account</button>
+    </form>
+</div>
+
+<script>
+    setTimeout(function() {
+        const alert = document.querySelector('.alert');
+        if (alert) {
+        alert.style.transition = 'opacity 0.5s ease-out';
+        alert.style.opacity = '0';
+        setTimeout(() => alert.remove(), 700000);
+        }
+    }, 3000); // disparaît après 3 secondes
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('profile-form');
+        const submitBtn = document.getElementById('submit-btn');
+
+        // Capture initial values of all inputs
+        const initialData = {};
+        [...form.elements].forEach(el => {
+            if (el.name && (el.type !== 'submit' && el.type !== 'button')) {
+                initialData[el.name] = el.value;
+            }
+        });
+
+        // Check on input/change
+        form.addEventListener('input',checkInput);
+        function checkInput (){
+            let changed = false;
+            [...form.elements].forEach(el => {
+                if (el.name && (el.type !== 'submit' && el.type !== 'button')) {
+                    if (el.value !== initialData[el.name]) {
+                        changed = true;
+                    }
+                }
+            });
+
+            // Enable/disable submit button + toggle .disabled class
+            if (changed) {
+                submitBtn.classList.remove('disabled');
+            } else {
+                submitBtn.classList.add('disabled');
+            }
+            submitBtn.disabled = !changed
+        }
+        checkInput()
+    });
+
+</script>
+
+{%endblock%}

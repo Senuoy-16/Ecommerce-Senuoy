@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block title %}{% trans "Product By Category" %}{% endblock %}
+
+{% block content %}
+{% if products %}
+<!--Best sellers-->
+<section class="product_list" style="margin-top: 120px;">
+    <header>
+        <h1 class="header__title">{{ category }} {% trans "Products" %}</h1>
+    </header>
+    <div class="most_popular_products">
+        {% for product in products %}
+        <div class="product_card" data-product-id="1">
+            <div class="product_card__container">
+                <a 
+                    data-variation_id="{{ product.variations.first.id }}" 
+                    class="product_card__btn cart" 
+                    data-tooltip="{% trans 'add to cart' %}"
+                >
+                    <span class="material-symbols-rounded">shopping_bag</span>
+                </a>
+                <div class="product_card__btn fav" data-tooltip="{% trans 'add to wishlist' %}">
+                    <span class="material-symbols-rounded">favorite</span>
+                </div>
+                <a href="{% url 'store:product_detail' product.variations.first.id %}" class="image_card">
+                    <div class="product_card__img">
+                        <img src="{{ product.variations.first.variation_images.first.image.image.url }}" alt="airpod">
+                    </div>
+                </a>
+            </div>
+            <div class="product_card__description">
+                <div class="product_card__text">{{ product.slug }}</div>
+                <div class="product_card__more">{{ product.description|truncatechars:80 }}</div>
+                {% with price=product.variations.first %}
+                    {% if price.sale_price != price.original_price and price.sale_price != '' %}
+                        <div class="product_card__price">
+                            <span class="original_price">${{ price.original_price }}</span>
+                            <span class="sale_price">${{ price.sale_price }}</span>
+                        </div>
+                    {% else %}
+                        <div class="product_card__price">
+                            ${{ price.original_price }}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+            </div>
+            <div class="product_card__color">
+                {% for variation in product.variations.all %}
+                    {% with variation.variation_images.first.image.image.url as img_url %}
+                    <button 
+                        class="product_card__btn-radio {% if forloop.first %}selected{% endif %}" 
+                        data-img="{{ img_url }}"
+                        data-original_price="{{ variation.original_price }}"
+                        data-sale_price="{{ variation.sale_price }}"
+                        data-product_card_id="{{ product.id }}"
+                        data-variation_id="{{ variation.id }}"
+                    >
+                        <span data-bg_color="{{ variation.color.code }}" class="color_choices"></span>
+                    </button>
+                    {% endwith %}
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+<!--Best sellers-->
+{% else %}
+<section class="produc_list" style="margin-top: 120px;">
+    <header>
+        <h1 style="padding: 100px 0; text-align:center; font-size: clamp(1rem, 2.5vw, 2rem);">
+            {% trans "No products available in this category for now. Come back later!" %}
+        </h1>
+    </header>
+</section>
+{% endif %}
+
+<script src="{% static 'js/pd_category.js' %}"></script>
+{% endblock %}

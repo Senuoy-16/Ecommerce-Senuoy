@@ -1,0 +1,244 @@
+{%extends 'base.html' %}
+{%load static%}
+{% load cart_tags %}
+{%load i18n%}
+
+{%block title%}Product Details{%endblock%}
+
+{%block content%}
+    <style>
+        .product_features{
+            margin-top: 40px;
+        }
+        .product_features .title{
+            white-space: pre;
+            font-size: 40px;
+            font-weight: 600;
+            letter-spacing: -.003em;
+            line-height: 1.0834933333;
+            color: #2e2e30;
+            display: block;
+            text-transform: uppercase;
+        }
+        .product_features .specifications{
+            width: 90%;
+            max-width: 1000px;
+            margin: auto;
+            padding: 10px 0;
+        }
+        .specifications .feature,
+        .specifications .feature_header{
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            border-bottom: 1px solid rgb(201, 201, 201);
+        }
+        .specifications p{
+            margin: 0;
+            padding-top: 15px;
+            text-transform: capitalize;
+        }
+        .feature .feature_label{
+            color: #1F2937;
+            font-size: 14px;
+        }
+        .feature .feature_value{
+            color: #36465c;
+            font-size: 14px;
+        }
+        .feature_header p{
+            color: black;
+            font-size: 1rem;
+            text-transform: uppercase;
+        }
+        
+    </style>
+<!--Produc details-->
+<section class="product_details">
+  <div class="container">
+    <div class="left">
+      <div class="main_image">
+        <img src="{{variation.variation_images.first.image.image.url}}" class="slide">
+      </div>
+      <div class="option">
+        {% for image in variation.variation_images.all %}
+          {% with img_url=image.image.image.url %}
+            <img class="{% if forloop.first %}active{% endif %}" src="{{img_url}}">
+          {% endwith %}
+        {% endfor %}
+      </div>
+    </div>
+    <div class="right">
+      <h3 style="text-transform: uppercase;">{{ product.name }}</h3>
+      <div class="product_card__price" style="font-size: 24px; font-weight:bold; margin-bottom:20px;">
+        {% if variation.sale_price != variation.original_price and variation.sale_price != '' %}
+          <span class="original_price">${{ variation.original_price }}</span>
+          <span class="sale_price">${{ variation.sale_price }}</span>
+        {% else %}
+          $ {{ variation.original_price }}
+        {% endif %}
+      </div>
+      <p>{{ product.description }}</p>
+
+      <h5>{% trans "Colors:" %}</h5>
+      <div class="colors" style="display: flex; gap:5px;">
+        {% for variation in product.variations.all %}
+        <button class="product_card__btn-radio">
+          <span 
+            data-bg_color="{{ variation.color.code }}"
+            data-variation_id="{{ variation.id }}"
+            class="color_choices"
+          >
+          </span>
+        </button>
+        {% endfor %}
+      </div>
+
+      <h5>{% trans "Number" %}</h5>
+      <div class="quantity_change">
+        <div class="add">
+          <span class="minus_btn">-</span>
+          <label class="add_value" data-quantity="{{ variation.quantity }}">{{ cart|get_item_quantity:variation.id }}</label>
+          <span class="plus_btn">+</span>
+        </div>
+        <div class="quantity_info">
+          {% blocktrans with count=variation.quantity %}
+            Il ne reste que {{ count }} unités de ce produit en stock.
+          {% endblocktrans %}
+        </div>
+      </div>
+
+      <div class="btns">
+        <form action="{% url 'cart:add_from_form' variation.id %}" method="post" class="form_add_cart" style="width: 100%;">
+          {% csrf_token %}
+          <input type="hidden"
+            name="quantity"
+            min="1"
+            value="{{ cart|get_item_quantity:variation.id }}"
+            class="form_control"
+            readonly>
+          <input type="hidden" name="override" value="True">
+          <button class="add_to_cart" type="submit" style="width: 100%;">
+            {% trans "Add to Bag" %}
+            <span class="material-symbols-rounded">shopping_bag</span>
+          </button>
+        </form>
+        <button class="add_to_wishlist">
+          <span class="material-symbols-rounded">favorite</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="product_features">
+    <div class="title">{{ product.slug }}</div>
+    <div class="specifications">
+      <div class="feature_header">
+        <p>{% trans "Feature" %}</p>
+        <p>{% trans "Details" %}</p>
+      </div>
+      {% for fv in product.feature_values.all %}
+        <div class="feature">
+          <p class="feature_label">{{ fv.feature.name }}</p>
+          <p class="feature_value">
+            {{ fv.data_value }}{% if fv.feature.unit %} {{ fv.feature.unit }}{% endif %}
+          </p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+<!--Produc details-->
+
+<script>
+    /* Product details */
+    const imgs = document.querySelectorAll(".product_details .option img");
+    imgs.forEach(img => {
+        img.addEventListener('click', () => {
+            document.querySelector('.slide').src = img.src;
+            imgs.forEach(i => i.classList.remove('active'));
+            img.classList.add('active');
+        });
+    });
+    /* Product details */
+
+// Select all the color span elements (circles) used for choosing a variation
+const spans = document.querySelectorAll('.color_choices');
+
+spans.forEach(span => {
+    // Set the background color of each span based on its data attribute
+    span.style.backgroundColor = span.dataset.bg_color;
+
+    // Get the variation ID stored in the span's dataset (e.g. data-variation-id="4")
+    const variationId = span.dataset.variation_id;
+
+    // Get the current URL path, e.g. "/product/4/" or "/product/4"
+    const currentUrl = window.location.pathname;
+
+    // Split the path into segments: ["", "product", "4", ""]
+    const pathParts = currentUrl.split('/');
+
+    // Extract the current variation ID from the path (third segment)
+    const currentVariationId = pathParts[3]; // e.g. "4"
+
+    // Check if this span represents the currently selected variation
+    if (currentVariationId === variationId) {
+        // Remove 'selected' class from all variation buttons
+        spans.forEach(s => s.parentElement.classList.remove('selected'));
+
+        // Add 'selected' class to the matching one
+        span.parentElement.classList.add('selected');
+    }
+
+    // Construct the new URL for this variation
+    const url = '/product/' + variationId + '/';
+
+    // Add click event to navigate to the corresponding variation's detail page
+    span.addEventListener('click', () => {
+        // Normalize current URL to ensure it ends with a slash
+        const normalizedUrl = currentUrl.endsWith('/') ? currentUrl : currentUrl + '/';
+
+        // Redirect only if it's a different variation
+        if (variationId && !normalizedUrl.endsWith(`/product/${variationId}/`)) {
+            window.location.href = url;
+        }
+    });
+});
+
+
+const minus_btn   = document.querySelector(".add span.minus_btn");
+const plus_btn    = document.querySelector(".add span.plus_btn");
+const input_value = document.querySelector(".add label.add_value");
+const input_form  = document.querySelector("form.form_add_cart input.form_control");
+
+minus_btn.addEventListener("click", () => {
+    let currentQty = parseInt(input_value.innerHTML);
+    let data_info = document.querySelector(".quantity_change .quantity_info")
+    if (currentQty > 1) {
+        data_info.style.display = "none"
+        currentQty--;
+        input_value.innerHTML = currentQty;
+        input_form.value = currentQty;
+    }
+});
+
+plus_btn.addEventListener("click", () => {
+    let currentQty = parseInt(input_value.innerHTML);
+    let data_stock = parseInt(input_value.dataset.quantity)
+    let data_info = document.querySelector(".quantity_change .quantity_info")
+    if(currentQty < data_stock){
+        currentQty++;
+        input_value.innerHTML = currentQty;
+        input_form.value = currentQty;
+        data_info.style.display = "none"
+    }else if(currentQty=data_stock){
+        data_info.style.display = "block"
+    }
+
+});
+
+input_value.addEventListener('change',()=>{
+    input_form.value = input_value.innerHTML
+})
+
+</script>
+{%endblock%}

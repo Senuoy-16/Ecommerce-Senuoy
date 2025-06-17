@@ -1,0 +1,368 @@
+{%extends 'base.html'%}
+
+{%load static%}
+{% load loyalty_extras %}
+
+{%block title%}List Rewards{%endblock%}
+
+{%block content%}
+<style>
+    
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+    :root{
+        --white-color:#fff;
+        --black-color: #000;
+        --light-white-color:#f0f0f0;
+        --light-grey-color: #e5e5e5;
+        --border-color: #d4d4d4;
+        --primary-color:#3b82f6;
+        --secondary-color:#404040;
+        --overlay-dark-color: rgba(0, 0, 0, 0.6);
+    }
+    * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+    }
+    body{
+        background-color: #F4F4F4;
+        font-family: 'Poppins', sans-serif;
+        overflow-x: hidden;
+    }
+
+    /******loyality*****/
+    .loyality{
+        width: 70%;
+        margin: 0 auto;
+        margin-top: 120px;
+    }
+    .loyality_header{
+        background-color: white;
+        border-radius: 30px;
+        display: flex;
+        align-items: center;
+        gap: 100px;
+        padding: 20px 40px;
+        border: 1px solid  rgba(140,140,140,0.07843);
+        box-shadow: 0px 4px 8px 0px rgba(100, 219, 255, 0.078),0px 4px 8px 0px rgba(140,140,140,0.07843);
+    }
+    .loyality_header .user_info{
+        display: flex;
+        align-items: center;
+    }
+    .loyality_header .user_info img{
+        width: 150px;
+        height: 150px;
+        background-color: #0082c31e;
+        border-radius: 50%;
+        margin-right: 30px;
+    }
+    .loyality_header .user_info .info_persona p{
+        font-size: 17px;
+        letter-spacing: .5px;
+        margin-bottom: 3px;
+        font-weight: 600;
+        color: rgba(0, 0, 0, 0.699);
+
+    }
+    .user_info .info_persona p.name{
+        color: black;
+        text-transform: uppercase;
+        margin-bottom: 4px;
+    }
+    .loyality_header .points{
+        display: flex;
+        gap: 20px; 
+    }
+    .loyality_header .points .title{
+        font-weight: 800;
+        font-size: 19px; 
+        color: #000000c7; 
+        letter-spacing: .6px;
+    }
+    .loyality_header .points .value{
+        border: 1px solid #0082C3;
+        padding: 5px  12px;
+        border-radius: 12px;
+        background-color: #0082C3;
+        color: white;
+        letter-spacing: 1px;
+        font-weight: 700;
+    }
+    .loyality .header p{
+        display: flex;
+        gap: 5px;
+        align-items: center;
+        margin-bottom: 10px; 
+        padding-left: 10px;
+        max-width: max-content;
+    }
+    .loyality .header p a{
+        color: #4B5563; 
+        text-decoration: none;
+        transition: all .3s ease;
+        border-bottom: 1px solid transparent;
+    }
+    .loyality .header p:hover a,
+    .loyality .header p:hover svg path{
+        border-bottom: 1px solid black;
+        color: black;
+        stroke: black;
+    }
+    .loyalty_awards h1{
+        white-space: pre;
+        font-size: clamp(16px, 4vw, 30px);
+        font-weight: 600;
+        letter-spacing: -.003em;
+        line-height: 1.0834933333;
+        color: #6e6e73;
+        display: block;
+        margin: 40px 0 20px; 
+        text-align: center;
+    }
+    .loyalty_awards .awards{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+    }
+    .loyalty_awards .awards .award{
+        background-color: white;
+        border: 1px solid rgba(0, 0, 0, 0.13);
+        border-radius: 20px;
+        padding: 20px 30px;
+        text-decoration: none;
+        color: black;
+        transition: all .3s ease;
+    }
+    .loyalty_awards .awards .award:hover{
+        box-shadow: 0px 4px 8px 0px rgba(48, 52, 53, 0.205),0px 4px 8px 0px rgba(140,140,140,0.07843);
+    }
+    .award .info_award{
+        display: flex;
+        gap: 10px; 
+    }
+    .award .info_award img{
+        height: 150px; 
+        width: 150px; 
+    }
+    .award .info_award .details{
+        padding: 15px 0; 
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    .info_award .details .title{
+        font-size: 13px;
+        color: #3b82f6;
+        font-weight: 500; 
+    }
+    .info_award .details .description{
+        color: #000;
+        font-weight: 700;
+        letter-spacing: .2px;
+    }
+    .info_award .details .points_required{
+        border: 1px solid #5b81be2d;
+        max-width: max-content;
+        padding: 2px 10px;
+        background-color: #5b81be2d;
+    }
+    .award.award.debloquer .info_award .details .points_required{
+        background-color: rgba(144, 228, 144, 0.733);
+    }
+    .loyalty_awards .award .progress_award{
+        padding-top: 10px;
+        margin-top: 20px;
+        border-top: 1px solid rgba(0, 0, 0, 0.253);
+    }
+    .award .progress_award .progress_info{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .award.debloquer .progress_award .progress_info{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        margin: 20px 0;
+    }
+    .award.debloquer .progress_award .progress_info i{
+        color: #0082C3; 
+        font-size:21px;
+    }
+    .award.debloquer .progress_award .progress_info p{
+        font-size:19px; 
+        margin: 0; 
+        padding:0;
+    }
+    .award .progress_award .progress_info p{
+        font-size: 14px;
+        font-weight: 400; 
+        letter-spacing: .2px;
+    }
+    .award .progress_award .progress_bar_bg{
+        margin-top: 5px;
+        width: 100%;
+        height: 8px; 
+        border-radius: 8px;
+        background-color: #00000010;
+        position: relative;
+        overflow: hidden;
+    }
+    .award .progress_award .progress_bar{
+        position: absolute;
+        left: 0;
+        height: 100%;
+        width: 81%;
+        background-color: #0082C3;
+    }
+    /******loyality*****/
+    @media only screen and (max-width: 1200px) {
+        .loyality{
+            width: 80%;
+        }
+        .loyality .loyality_header{
+            gap: 100px; 
+            padding: 20px 20px;
+        }
+    }
+    @media only screen and (max-width: 900px) {
+        .loyality{
+            width: 80%;
+        }
+        .loyality .loyality_header{
+            gap: 10px;  
+            padding: 20px 10px;
+        }
+    }
+    @media only screen and (max-width: 768px) {
+        .loyality{
+            width: 90%;
+        }
+        .loyality_header{
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            padding: 20px 0px;
+        }  
+        .loyality_header .user_info{
+            display: flex;
+            align-items: center;
+        }
+        .loyality_header .user_info img{
+            width: 120px;
+            height: 120px;
+            margin-right: 10px;
+        }
+        .loyality_header .user_info .info_persona p{
+            font-size: 15px;
+
+        }
+        .loyality_header .points{
+            align-items: center;
+            gap: 10px; 
+        }
+        .loyality_header .points .title{
+            font-size: 17px; 
+        }
+        .loyality_header .points .value{
+            font-size: 14px; 
+        } 
+        .loyalty_awards .awards{
+            grid-template-columns: 1fr;
+        }
+    }
+    
+</style>
+
+<div class="loyality">
+    <div class="header">
+        <p>
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 15.8334L4.16667 10L10 4.16669" stroke="#4B5563" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M15.8333 10H4.16667" stroke="#4B5563" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>    
+            <a href="{% url 'loyalty:home_loyalty' %}">Back</a>
+        </p>
+    </div>
+    <div class="loyality_header">
+        <div class="user_info">
+            <img src="{%static 'images/Sample_User_Icon.png'%}" alt="">
+            <div class="info_persona">
+                <p class="name">{{request.user.get_full_name}}</p>
+                <p class="email">{{request.user.email}}</p>
+                <p class="phone">{{request.user.phone_number}}</p>
+            </div>
+        </div>
+        <div class="points">
+            <p class="title">Solde de points:</p>
+            <p class="value">{{points}} pts</p>
+        </div>
+    </div>
+    <div class="loyalty_awards">
+        <h1>Recomponse</h1>
+        <div class="awards">
+        {% for reward in rewards %}
+            {% with diff=reward.points_required|subtract:points %}
+                <a href="{%url 'loyalty:reward_details' reward.pk%}" class="award {% if diff < 0 %}debloquer{% endif %}">
+                    <div class="info_award">
+                        <img src="{{ reward.image.url }}" alt="">
+                        <div class="details">
+                            <div class="title_description">
+                                <div class="title">{{ reward.owner }}</div>
+                                <div class="description">{{ reward.title }}</div>
+                            </div>
+                            <div class="points_required">
+                                {% if diff < 0 %}
+                                    <i class="uil uil-key-skeleton-alt"></i>
+                                {% else %}
+                                    <i class="uil uil-lock"></i>
+                                {% endif %}
+                                {{ reward.points_required }} pts
+                            </div>
+                        </div>
+                    </div>
+                    <div class="progress_award">
+                        {% if diff > 0 %}
+                            <div class="progress_info">
+                                <p>Il vous faut encore {{ diff }} pts pour gagner</p>
+                                <p class="progress_percent">{{ points|progress:reward.points_required }}%</p>
+                            </div>
+                            <div class="progress_bar_bg">
+                                <div class="progress_bar"></div>
+                            </div>
+                        {% else %}
+                            <div class="progress_info">
+                                <i class="uil uil-check-circle"></i>
+                                <p>Pret a etre debloquer</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </a>
+            {% endwith %}
+        {% endfor %}
+</div>
+
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const awards_progress = document.querySelectorAll(".loyalty_awards .award .progress_award");
+        awards_progress.forEach((award) => {
+            const progressPercentEl = award.querySelector('.progress_info .progress_percent');
+            const progressBar = award.querySelector('.progress_bar_bg .progress_bar');
+
+            if (progressPercentEl && progressBar) {
+                const progress_percent = progressPercentEl.textContent.trim();
+                progressBar.style.width = progress_percent;
+            }
+        });
+    });
+</script>
+
+
+{%endblock%}

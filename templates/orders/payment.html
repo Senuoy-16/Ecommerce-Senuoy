@@ -1,0 +1,347 @@
+{%extends 'base.html'%}
+{%load static%}
+{% load order_extras %}
+
+{%block title%}Order{%endblock%}
+
+{%block content%}
+    <style>
+        .checkout{
+            margin-top: 100px;
+            margin: 120px auto 20px;
+        }
+        .checkout header{
+            margin-bottom: 30px;
+        }
+        .checkout svg{
+            width: clamp(20px, 6vw, 40px);
+            height: clamp(20px, 6vw, 40px);
+        }
+        .checkout .link_back{
+            width: 100%;
+            margin: 0 auto;
+            padding: 20px 20px 10px; 
+            background-color: #dadada23;
+        }
+        .checkout .link_back p{
+            display: flex;
+            gap: 5px;
+            align-items: center;
+            font-size: 16px;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .checkout .link_back p svg{
+            width: 20px;
+            height: 20px;
+        }
+        .checkout .link_back p svg path{
+            transition: all .3s ease;
+        }
+        .checkout .link_back p a{
+            color: #4B5563; 
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: all .3s ease;
+        }
+        .checkout .link_back p:hover a,
+        .checkout .link_back p:hover svg path{
+            border-bottom: 1px solid black;
+            color: black;
+            stroke: black;
+        }
+        .checkout .content {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            width: 90vw;
+            margin: 0 auto;
+            gap: 20px;
+        }
+
+        .checkout_items {
+            grid-column: 1 / 2;
+            background-color: white;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+            height: 90vh;
+        }
+
+        .checkout_items .items {
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        .checkout_items .item {
+            padding: 20px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .item .item_image {
+            width: 100px;
+            height: 100px;
+            border: 1px solid #f1f1f1;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .item .item_image img {
+            width: 100%;
+            height: 100%;
+            padding: 10px;
+        }
+
+        .item .item_info {
+            flex-grow: 1;
+        }
+
+        .item .item_info p {
+            font-size: clamp(14px, 1.2vw, 16px);
+            margin-bottom: 5px;
+            color: #666;
+        }
+
+        .item .product_name{
+            font-weight: bold;
+            color: black !important; 
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .item .price del {
+            color: #f02b2b;
+            margin-right: 5px;
+        }
+
+        .item .price ins {
+            color: #666;
+            text-decoration: none;
+        }
+
+        .checkout_items .amount {
+            position: sticky;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: #dadada93;
+            padding: 20px 30px;
+            z-index: 10;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: black;
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .amount .amount_labeles h2 {
+            font-weight: 500;
+        }
+
+        .amount .amount_labeles p {
+            font-weight: 200;
+            font-size: 12px;
+            margin: 0;
+            position: relative;
+            transform: translate(5px,-10px);
+        }
+
+        .amount .amount_price {
+            font-weight: 800;
+            font-size: 24px;
+        }
+
+        .right_content {
+            grid-column: 2 / 4;
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+        }
+        .right_content h1{
+            text-align: center;
+            color: black;
+            margin-right: 10px;
+            position: relative;
+            font-size: clamp(12px, 4vw, 30px);
+        }
+        .right_content form{
+            padding: 30px 50px;
+        }
+        .right_content form .form_group{
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin-bottom: 24px;
+        }
+        .right_content form .form_group input{
+            padding: 4px 9px;
+            border-radius: 5px;
+            outline: none;
+            border: 1px solid #D1D5DB;
+            flex-grow: 1;
+            height: 42px;
+            color: black;
+            font-size: 14px;
+            line-height: 20px;
+            text-transform: capitalize;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+        .right_content form .form_group label{
+            color: #374151;
+            font-size: 16px;
+            line-height: 20px;
+            text-transform: capitalize;
+            letter-spacing: 1px;
+            font-weight: 500;
+            margin-bottom: 5px; 
+        }
+        .right_content form button{
+            width: 100%;
+            padding: 15px 0; 
+            background-color: #9333EA;
+            color: #fff;
+            border-radius: 10px;
+            border: 1px solid #9333EA;
+            cursor: pointer;
+            margin-bottom: 13px;
+            letter-spacing: 1px;
+            text-transform: capitalize; 
+            transition: all .5s ease;
+        }
+        .right_content form button:hover{
+            background-color: #fff;
+            color: #9333EA;
+            border: 1px solid #9333EA;
+        }
+        .right_content form p.errors{
+            text-align: left;
+            color: rgb(187, 32, 32);
+            margin: 0;
+            font-size: 13px;
+        }
+        @media screen and (max-width: 900px){
+            .checkout .content {
+                display: flex;
+                flex-direction: column;
+            }
+            .right_content form{
+                padding: 30px 0px; 
+            }
+        }
+    </style>
+    <div class="checkout">
+        <header>
+            <h1>Checkout</h1>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="clipboard-notes">
+                <path fill="#51AD5A" d="M13,14H9a1,1,0,0,0,0,2h4a1,1,0,0,0,0-2ZM17,4H15.82A3,3,0,0,0,13,2H11A3,3,0,0,0,8.18,4H7A3,3,0,0,0,4,7V19a3,3,0,0,0,3,3H17a3,3,0,0,0,3-3V7A3,3,0,0,0,17,4ZM10,5a1,1,0,0,1,1-1h2a1,1,0,0,1,1,1V6H10Zm8,14a1,1,0,0,1-1,1H7a1,1,0,0,1-1-1V7A1,1,0,0,1,7,6H8V7A1,1,0,0,0,9,8h6a1,1,0,0,0,1-1V6h1a1,1,0,0,1,1,1Zm-3-9H9a1,1,0,0,0,0,2h6a1,1,0,0,0,0-2Z"></path>
+            </svg> 
+        </header>
+        <div class="content">
+            <div class="checkout_items">
+                <div class="link_back">
+                    <p>
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M10 15.8334L4.16667 10L10 4.16669" stroke="#4B5563" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M15.8333 10H4.16667" stroke="#4B5563" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>    
+                        <a href="{%url 'cart:cart_detail'%}">Back to Cart</a>
+                    </p>
+                </div>
+                <div class="items">
+                <!-- Repeatable product items -->
+                {% for item in order.items.all%}
+                <div class="item">
+                    <div class="item_image">
+                    <img src="{{item.product.variation_images.first.image.image.url}}" alt="{{item.product.variation_images.first.image.alt}}">
+                    </div>
+                    <div class="item_info">
+                    <p class="product_name">{{item.product.product.name}}</p>
+                    <p class="quantity">{{item.quantity}}{%if item.quantity > 1%} units{%else%} unit{%endif%}</p>
+                    {%if item.original_price != item.sale_price%}
+                        {% with sale_price=item.sale_price|multiply:item.quantity original_price=item.original_price|multiply:item.quantity %}
+                            <p class="price">
+                                <del>${{ original_price }}</del>
+                                <ins>${{ sale_price }}</ins>
+                            </p>
+                        {% endwith %}
+                    {%else%}
+                    
+                        {% with price=item.sale_price|multiply:item.quantity%}
+                            <p>{{ price }}</p>
+                        {% endwith %}
+
+                    {%endif%}
+                    </div>
+                </div>
+                {%endfor%}
+                <!-- Add more .item divs as needed -->
+                </div>
+                <div class="amount">
+                <div class="amount_labeles">
+                    <h2>Total</h2>
+                    <p>TVA Comprise</p>
+                </div>
+                <div class="amount_price">$&nbsp;{{order.get_total_cost}}</div>
+                </div>
+            </div>
+            <div class="right_content">
+                <h1>Order Summary or Payment Info</h1>
+                <form method="post">
+                    <div class="form_group">
+                        <label for="first_name">firstname:</label>
+                        <input readonly type="text" id="first_name" placeholder="{{order.first_name}}">
+                    </div>
+                    <div class="form_group">
+                        <label for="last_name">last name:</label>
+                        <input readonly type="text" id="last_name" placeholder="{{order.last_name}}">
+                    </div>
+                    <div class="form_group">
+                        <label for="email">email:</label>
+                        <input readonly type="text" id="email" placeholder="{{order.email}}">
+                    </div>
+                    <div class="form_group">
+                        <label for="address">address:</label>
+                        <input readonly type="text" id="address" placeholder="{{order.address}}">
+                    </div>
+                    <div class="form_group">
+                        <label for="postal_code">postal code:</label>
+                        <input readonly type="text" id="postal_code" placeholder="{{order.postal_code}}">
+                    </div>
+                    <div class="form_group">
+                        <label for="city">city:</label>
+                        <input readonly type="text" id="city" placeholder="{{order.city}}">
+                    </div>
+                    <button type="button" id="checkout-button" class="submit">Pay Now</button>
+                </form>
+            </div>
+        </div>
+    </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#checkout-button").click(function () {
+            $.ajax({
+                url: "{%url 'orders:create_stripe_session' order.order_id %}",
+                type: "POST",
+                dataType: "json",
+                headers: { "X-CSRFToken": "{{csrf_token}}" },
+                success: function (response) {
+                    if (response.checkout_url) {
+                        window.location.href = response.checkout_url;
+                    } else {
+                        alert("Error:Unable to proceed to payment");
+                    }
+                },
+                error: function (error) {
+                    alert("Payment procesing failed");
+                }, 
+            });
+        });
+    });
+</script>
+{%endblock%} 

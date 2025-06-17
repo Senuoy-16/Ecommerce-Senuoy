@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+        :root{
+            --white-color:#fff;
+            --black-color: #000;
+            --light-white-color:#f0f0f0;
+            --light-grey-color: #e5e5e5;
+            --border-color: #d4d4d4;
+            --primary-color:#3b82f6;
+            --secondary-color:#404040;
+            --overlay-dark-color: rgba(0, 0, 0, 0.6);
+        }
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        body{
+            background-color: white;
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+        }
+        .order_details .right_content{
+            width: 400px;
+            position: fixed;
+            right:0;
+            top: 0;
+            bottom: 0;
+            background-color: #F6F6F6;
+            overflow-y: auto;
+            scrollbar-color: #f1f1f1 transparent;
+            overflow-y: auto; 
+        }
+        .right_content .header{
+            padding: 30px 16px 22px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.253);   
+        }
+        .right_content .header h2{
+            font-size: 19px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            margin-right: 10px;
+        }
+        .right_content .header svg{
+            height: 30px;
+            width: 30px;
+            display: none;  
+        }
+        .right_content .product{
+            display: flex;
+            gap: 20px;
+            padding: 30px 16px 22px;
+        }
+        .right_content .product img{
+            height: 85px;
+            width: 85px; 
+        }
+        .right_content .product p.name{
+            font-size: 16px;
+            text-transform: uppercase;
+            color: black;
+            font-weight: 500;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        .right_content .product p.price{
+            font-size: 18px;
+            text-transform: uppercase;
+            color: black;
+            margin-bottom: 4px;
+        }
+        .right_content .product p.quantity{
+            font-size: 14px;
+        }
+        /*scrollBar css*/
+        .order_details .right_content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .order_details .right_content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .order_details .right_content::-webkit-scrollbar-thumb {
+            background-color: #ccc;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        .order_details .right_content:hover::-webkit-scrollbar-thumb {
+            background-color: #333;
+        }
+        /*scrollBar css*/
+        .order_details .left_content{
+            width: calc(100vw - 400px);
+        }
+        .order_details .left_content .header{
+            margin: 80px 60px;
+            position: relative; 
+        }
+        .left_content .header .title{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .left_content .header .title a{
+            font-size: 24px;   
+            text-decoration: none;
+            color: black;
+            font-weight: 800;
+            letter-spacing: 2px;   
+        }
+        .left_content .header svg{
+            position: absolute;
+            left: 0;
+            top: 50%; 
+            transform: translateY(-50%);
+            height: 28px;   
+            width: 28px; 
+            transition: all ease .3s;  
+        }
+        .left_content .header svg:hover path{
+            stroke: black;
+            color: black;
+        }
+        .left_content .commande {
+            width: 80%;
+            margin: auto;
+        }
+        .left_content .commande h2{
+            font-size: 18px;
+            font-weight: 600;
+            padding-bottom: 30px;
+        } 
+        .left_content .commande h2 span{
+            font-weight: normal;
+            letter-spacing: 2px;
+        }
+        .left_content .commande .info{
+            padding: 20px 0;
+            border-top: 1px solid rgba(0, 0, 0, 0.205);
+        }
+        .left_content .commande .info h2{
+            font-size: 16px;
+            font-weight: 500;
+            padding-bottom: 10px;
+        }
+        .commande .info .sous_info{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 16px; 
+            font-weight: 400;
+            color: #000000bb; 
+            letter-spacing: .2px;
+            flex-basis: 50%;
+            text-transform: capitalize;
+            margin-bottom: 6px;
+        }
+        .commande .info .coordonnees{
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+
+        }
+        .commande .info .coordonnees .info{
+            border: none;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.205);
+        }
+        @media screen and (max-width:768px){
+            .order_details .right_content{
+                width: 80%;
+                height: 75px;
+                margin:  20px auto 40px;
+                position: relative;
+                border-radius: 20px;
+                box-shadow: 0px 4px 8px 0px rgba(255,100,124,0.07843),0px 4px 8px 0px rgb(238, 237, 237);
+                background-color: #f0eeee;
+                transition: all 1s ease;
+            }
+            .order_details .right_content.active{
+                height: max-content;
+            }
+            .right_content .header{
+                padding: 22px 16px 22px;
+                border-bottom: 1px solid transparent;
+                justify-content: center;
+                cursor: pointer;
+            }
+            .right_content .header h2{ 
+                text-align: center; 
+            }
+            .right_content .header svg.active{
+                display: block;  
+            }
+            .order_details .left_content{
+                width: 90vw;
+            }
+            .order_details .left_content .header{
+                margin: 40px 30px;
+            }
+            .commande .info .coordonnees{
+                grid-template-columns: repeat(1, 1fr);
+
+            }
+            .left_content .commande h2{
+                font-size: 16px;
+                padding: 15px 0 10px;
+            } 
+            .left_content .commande .info{
+                padding: 10px 0;
+            }
+            .left_content .commande .info h2{
+                padding-bottom: 7px;
+            }
+            .commande .info .sous_info{
+                margin-bottom: 3px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="order_details">
+    <div class="left_content">
+        <div class="header">
+            <div class="title">
+                <a href="">SENUOY</a>
+            </div>
+            <a href="{%url 'orders:orders_history'%}">
+                <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 15.8334L4.16667 10L10 4.16669" stroke="#4B5563" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M15.8333 10H4.16667" stroke="#4B5563" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </a>
+        </div>
+        <div class="commande">
+            <h2>Commande <span>{{order.order_id}}</span></h2>
+            <div class="info">
+                <h2>Resume</h2>
+                <div class="sous_info">
+                    <div class="name">email</div>
+                    <div class="value">{{order.email}}</div>
+                </div>
+                <div class="sous_info">
+                    <div class="name">{{order.get_quantity}}  {%if order.get_quantity > 1%} articles {%else%} article{%endif%}</div>
+                    <div class="value">$ {{order.get_total_cost}}</div>
+                </div>
+                <div class="sous_info">
+                    <div class="name">created at</div>
+                    <div class="value">{{order.created_at}}</div>
+                </div>
+            </div>
+            <div class="info">
+                <div class="coordonnees">
+                    <div class="info">
+                        <h2>Ville</h2> 
+                        <div class="sous_info">
+                            <div class="value">{{order.city}}</div>
+                        </div>
+                    </div>
+                    <div class="info">
+                        <h2>Code postal</h2> 
+                        <div class="sous_info">
+                            <div class="value">{{order.postal_code}}</div>
+                        </div>
+                    </div>
+                    <div class="info">
+                        <h2>adress</h2>
+                        <div class="sous_info">
+                            <div class="value">{{order.address}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="right_content">
+        <div class="header">
+            {%if order.get_quantity > 1%}
+            <h2>{{order.get_quantity}} articles achetes</h2>
+            {%else%}
+            <h2>{{order.get_quantity}} article achete</h2>
+            {%endif%}
+            <svg class="down_arrow active" xmlns="http://www.w3.org/2000/svg" data-name="Layer 1" viewBox="0 0 24 24" id="arrow-down">
+                <path fill="#565656" d="M17.71,11.29a1,1,0,0,0-1.42,0L13,14.59V7a1,1,0,0,0-2,0v7.59l-3.29-3.3a1,1,0,0,0-1.42,1.42l5,5a1,1,0,0,0,.33.21.94.94,0,0,0,.76,0,1,1,0,0,0,.33-.21l5-5A1,1,0,0,0,17.71,11.29Z"></path>
+            </svg>
+            <svg class="up_arrow" xmlns="http://www.w3.org/2000/svg" data-name="Layer 1" viewBox="0 0 24 24" id="arrow-up">
+                <path fill="#565656" d="M17.71,11.29l-5-5a1,1,0,0,0-.33-.21,1,1,0,0,0-.76,0,1,1,0,0,0-.33.21l-5,5a1,1,0,0,0,1.42,1.42L11,9.41V17a1,1,0,0,0,2,0V9.41l3.29,3.3a1,1,0,0,0,1.42,0A1,1,0,0,0,17.71,11.29Z"></path>
+            </svg>
+        </div>
+        <div class="products">
+            {%for item in order.items.all%}
+            <div class="product">
+                <a href="{%url 'store:product_detail' item.product.id %}">
+                    <img src="{{item.product.variation_images.first.image.image.url}}" alt="{{item.product.variation_images.first.image.alt}}">
+                </a>
+                <div class="info_product">
+                    <p class="name">{{item.product.product.name}}</p>
+                    <p class="price">${{item.get_cost}}</p>
+                    <p class="quantity">{{item.quantity}} unite</p>
+                </div>
+            </div>
+            {%endfor%}
+        </div>
+    </div>
+</div>
+
+<script src="app.js" ></script>
+<script>
+    const order_right  = document.querySelector(".order_details .right_content")
+    const order_header = document.querySelector('.right_content .header')
+    const down_arrow   = document.querySelector('.order_details .right_content svg.down_arrow')
+    const up_arrow     = document.querySelector('.order_details .right_content svg.up_arrow')
+    order_header.addEventListener('click',()=>{
+        order_right.classList.toggle('active')
+        down_arrow.classList.toggle('active')
+        up_arrow.classList.toggle('active')
+    })
+</script>
+
+</body>
+</html>

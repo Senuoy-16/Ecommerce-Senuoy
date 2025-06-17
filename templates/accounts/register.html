@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<!--Register Form-->
+<div class="register">
+    <div class="form_left">
+        <p>
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 15.8334L4.16667 10L10 4.16669" stroke="#4B5563" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M15.8333 10H4.16667" stroke="#4B5563" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>    
+            <a href="{%url 'store:home' %}">Back to Home</a>
+        </p>
+        <div class="background">
+            <img src="{% static 'images/store-card-1-bg.png' %}" alt="register">
+        </div>
+    </div>
+    
+    <div class="form_right">
+        <h1>Create Account</h1>
+        <p>Join Senuoy store for exclusive deals and offers</p>
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="form_names">
+                <div class="form_group">
+                    <label for="{{ form.first_name.id_for_label }}">{{ form.first_name.label }}:</label>
+                    {{form.first_name}}
+                    {% if form.first_name.errors %}
+                        {% for error in form.first_name.errors %}
+                            <p class="errors">{{ error }}</p>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="form_group">
+                    <label for="{{ form.last_name.id_for_label }}">{{ form.last_name.label }}:</label>
+                    {{form.last_name}}
+                    {% if form.last_name.errors %}
+                        {% for error in form.last_name.errors %}
+                            <p class="errors">{{ error }}</p>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="form_names">
+                <div class="form_group">
+                    <label for="{{ form.country.id_for_label }}">{{ form.country.label }}:</label>
+                    {{form.country}}
+                    {% if form.country.errors %}
+                        {% for error in form.country.errors %}
+                            <p class="errors">{{ error }}</p>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="form_group">
+                    <label for="{{ form.phone_number.id_for_label }}">{{ form.phone_number.label }}:</label>
+                    {{form.phone_number}}
+                    {% if form.phone_number.errors %}
+                        {% for error in form.phone_number.errors %}
+                            <p class="errors">{{ error }}</p>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="form_group">
+                    <label for="{{ form.email.id_for_label }}">{{ form.email.label }}:</label>
+                    {{form.email}}
+                    {% if form.email.errors %}
+                        {% for error in form.email.errors %}
+                            <p class="errors">{{ error }}</p>
+                        {% endfor %}
+                    {% endif %}
+            </div>
+
+            <div class="form_group">
+                    <label for="{{ form.password.id_for_label }}">{{ form.password.label }}:</label>
+                    {{form.password}}
+                    {% if form.password.errors %}
+                        {% for error in form.password.errors %}
+                            <p class="errors">{{ error }}</p>
+                        {% endfor %}
+                    {% endif %}
+            </div>
+            <div class="form_group">
+                    <label for="{{ form.confirmed_password.id_for_label }}">{{ form.confirmed_password.label }}:</label>
+                    {{form.confirmed_password}}
+                    {% if form.confirmed_password.errors %}
+                        {% for error in form.confirmed_password.errors %}
+                            <p class="errors">{{ error }}</p>
+                        {% endfor %}
+                    {% endif %}
+            </div>
+
+            <!-- non-field errors -->
+            {% if form.non_field_errors %}
+                {% for error in form.non_field_errors %}
+                    <p class="errors"> * {{ error }}</p>
+                {% endfor %}
+            {% endif %}
+
+            <input type="submit" value="Create Account" class="btn_submit">
+        </form>
+
+        <p>Already have an account? <a href="{%url 'accounts:login'%}">Sign in</a></p>
+    </div>
+</div>
+<!--Register Form-->
+{% endblock %}

@@ -1,0 +1,297 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-05-28 17:10+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: .\src\settings.py:190
+msgid "French"
+msgstr ""
+
+#: .\src\settings.py:191
+msgid "Arabic"
+msgstr ""
+
+#: .\templates\includes\footer.html:7
+msgid "Aide"
+msgstr "Aide"
+
+#: .\templates\includes\footer.html:9
+msgid "Questions frequentes"
+msgstr "Questions fréquentes"
+
+#: .\templates\includes\footer.html:10
+msgid "Faire un retour"
+msgstr "Effectuer un retour"
+
+#: .\templates\includes\footer.html:14
+msgid "Company"
+msgstr "Entreprise"
+
+#: .\templates\includes\footer.html:16
+msgid "Nous"
+msgstr "Qui sommes-nous ?"
+
+#: .\templates\includes\footer.html:17
+msgid "Participer avec nous"
+msgstr "Rejoignez-nous"
+
+#: .\templates\includes\footer.html:23
+msgid "Our App"
+msgstr "Notre application"
+
+#: .\templates\includes\footer.html:32
+msgid "Payment"
+msgstr "Paiement"
+
+#: .\templates\includes\footer.html:43
+msgid "Newsletter"
+msgstr "Newsletter"
+
+#: .\templates\includes\footer.html:54
+msgid "Suivez-nous !"
+msgstr "Suivez-nous !"
+
+#: .\templates\includes\footer.html:67
+msgid "Cookie Preferences"
+msgstr "Préférences de cookies"
+
+#: .\templates\includes\footer.html:68
+msgid "Privacy Policy"
+msgstr "Politique de confidentialité"
+
+#: .\templates\includes\footer.html:69
+msgid "Purchase Conditions"
+msgstr "Conditions d’achat"
+
+#: .\templates\includes\footer.html:70
+msgid "Cookie Policy"
+msgstr "Politique en matière de cookies"
+
+#: .\templates\includes\footer.html:71
+msgid "T&C Pull&Bear Community"
+msgstr "Conditions Pull&Bear Community"
+
+#: .\templates\store\home.html:15
+msgid "DESIGN SLIDER"
+msgstr "CURSEUR DE DESIGN"
+
+#: .\templates\store\home.html:16
+msgid "Earphone"
+msgstr "Écouteur"
+
+#: .\templates\store\home.html:18
+msgid ""
+"Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia, laborum "
+"cumque dignissimos quidem atque et eligendi aperiam voluptates beatae maxime."
+msgstr "Exemple de description produit."
+
+#: .\templates\store\home.html:20
+msgid "SEE MORE"
+msgstr "VOIR PLUS"
+
+#: .\templates\store\home.html:23
+msgid "Earphone GHTK"
+msgstr "Écouteur GHTK"
+
+#: .\templates\store\home.html:25
+msgid ""
+"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor, reiciendis "
+"suscipit nobis nulla animi, modi explicabo quod corrupti impedit illo, "
+"accusantium in eaque nam quia adipisci aut distinctio porro eligendi. "
+"Reprehenderit nostrum consequuntur ea! Accusamus architecto dolores modi "
+"ducimus facilis quas voluptatibus! Tempora ratione accusantium magnam nulla "
+"tenetur autem beatae."
+msgstr "Description longue du produit mettant en avant ses avantages."
+
+#: .\templates\store\home.html:29
+msgid "Used Time"
+msgstr "Durée d'utilisation"
+
+#: .\templates\store\home.html:30
+msgid "6 hours"
+msgstr "6 heures"
+
+#: .\templates\store\home.html:33
+msgid "Charging port"
+msgstr "Port de chargement"
+
+#: .\templates\store\home.html:34
+msgid "Type-C"
+msgstr "Type-C"
+
+#: .\templates\store\home.html:37
+msgid "Compatible"
+msgstr "Compatible"
+
+#: .\templates\store\home.html:38
+msgid "Android"
+msgstr "Android"
+
+#: .\templates\store\home.html:41
+msgid "Bluetooth"
+msgstr "Bluetooth"
+
+#: .\templates\store\home.html:45
+msgid "Controlled"
+msgstr "Contrôlé"
+
+#: .\templates\store\home.html:46
+msgid "Touch"
+msgstr "Tactile"
+
+#: .\templates\store\home.html:50
+msgid "ADD TO CART"
+msgstr "AJOUTER AU PANIER"
+
+#: .\templates\store\home.html:51
+msgid "CHECKOUT"
+msgstr "COMMANDER"
+
+#: .\templates\store\home.html:62
+msgid "See All"
+msgstr "Tout Voir"
+
+#: .\templates\store\home.html:75 .\templates\store\list_product.html:43
+msgid "Offre spéciale Senuoy 2025"
+msgstr "Offre spéciale Senuoy 2025"
+
+#: .\templates\store\home.html:76 .\templates\store\list_product.html:44
+msgid "de remise avec le code"
+msgstr "de remise avec le code"
+
+#: .\templates\store\home.html:81 .\templates\store\list_product.html:49
+msgid "DAYS"
+msgstr "Jours"
+
+#: .\templates\store\home.html:85 .\templates\store\list_product.html:53
+msgid "hours"
+msgstr "Heures"
+
+#: .\templates\store\home.html:89 .\templates\store\list_product.html:57
+msgid "minutes"
+msgstr "Minutes"
+
+#: .\templates\store\home.html:93 .\templates\store\list_product.html:61
+msgid "secondes"
+msgstr "Secondes"
+
+#: .\templates\store\home.html:102 .\templates\store\list_product.html:70
+msgid "Store."
+msgstr "Boutique."
+
+#: .\templates\store\home.html:103 .\templates\store\list_product.html:71
+msgid "Pour acheter vos produits préférés, c’est ici."
+msgstr "Pour acheter vos produits préférés, c’est ici."
+
+#: .\templates\store\home.html:130
+msgid "Pourqoui"
+msgstr "Pourquoi"
+
+#: .\templates\store\home.html:131
+msgid "acheter chez Senuoy Store?"
+msgstr "acheter chez Senuoy Store?"
+
+#: .\templates\store\home.html:136
+msgid "Livraison gratuire."
+msgstr "Livraison gratuite."
+
+#: .\templates\store\home.html:138 .\templates\store\home.html:144
+#: .\templates\store\home.html:150
+msgid "En Savoir Plus"
+msgstr "En Savoir Plus"
+
+#: .\templates\store\home.html:142
+msgid "Profitez de notre"
+msgstr "Profitez de notre"
+
+#: .\templates\store\home.html:143
+msgid "garantie du meilleur prix."
+msgstr "garantie du meilleur prix."
+
+#: .\templates\store\home.html:148
+msgid "Retours faciles"
+msgstr "Retours faciles"
+
+#: .\templates\store\home.html:149
+msgid "et sans frais."
+msgstr "et sans frais."
+
+#: .\templates\store\home.html:159
+msgid "Most Popular Products"
+msgstr "Produits les plus populaires"
+
+#: .\templates\store\home.html:219
+msgid "View More"
+msgstr "Voir plus"
+
+#: .\templates\store\product_by_category.html:4
+msgid "Product By Category"
+msgstr "Produit par catégorie"
+
+#: .\templates\store\product_by_category.html:11
+msgid "Products"
+msgstr "Produits"
+
+#: .\templates\store\product_by_category.html:20
+msgid "add to cart"
+msgstr "ajouter au panier"
+
+#: .\templates\store\product_by_category.html:24
+msgid "add to wishlist"
+msgstr "ajouter à la liste de souhaits"
+
+#: .\templates\store\product_by_category.html:74
+msgid "No products available in this category for now. Come back later!"
+msgstr ""
+"Aucun produit disponible dans cette catégorie pour le moment. Revenez plus "
+"tard !"
+
+#: .\templates\store\product_detail.html:82
+msgid "Colors:"
+msgstr "Couleurs :"
+
+#: .\templates\store\product_detail.html:96
+msgid "Number"
+msgstr "Quantité"
+
+#: .\templates\store\product_detail.html:104
+#, fuzzy, python-format
+#| msgid "Il ne reste que %(count)s unités de ce produit en stock."
+msgid ""
+"\n"
+"            Il ne reste que %(count)s unités de ce produit en stock.\n"
+"          "
+msgstr "Il ne reste que %(count)s unités de ce produit en stock."
+
+#: .\templates\store\product_detail.html:121
+msgid "Add to Bag"
+msgstr "Ajouter au sac"
+
+#: .\templates\store\product_detail.html:136
+msgid "Feature"
+msgstr "Caractéristique"
+
+#: .\templates\store\product_detail.html:137
+msgid "Details"
+msgstr "Détails"
+
+#~ msgid "Home"
+#~ msgstr "Accueil"
+
+#~ msgid "Product details"
+#~ msgstr "Détails du produit"
