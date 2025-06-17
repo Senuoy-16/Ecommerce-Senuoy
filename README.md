@@ -94,12 +94,7 @@ An online store built with Django, featuring user authentication, shopping cart,
      python manage.py runserver
      ```
 
-11. **License**
+10. **License**
 
     MIT License © 2025 Senuoy
 
-1. **Clone the repository**
-     ```
-     git clone https://github.com/Senuoy-16/Ecommerce-Senuoy.git
-     cd Ecommerce-Senuoy/src
-     ```
