@@ -11,7 +11,7 @@ An online store built with Django, featuring user authentication, shopping cart,
 - 💳 Stripe integration for secure online payments  
 - ✉️ Email notifications using Celery + RabbitMQ  
 - 🎁 Loyalty system (earn points, redeem rewards)  
-- 🌍 Multilingual support (English, Arabic, French)  
+- 🌍 Multilingual support (French, Arabic)  
 - 📰 Newsletter subscription  
 - 🎟️ Coupons and discounts  
 - 🔐 Customized Django admin panel  
