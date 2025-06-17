@@ -41,17 +41,20 @@ An online store built with Django, featuring user authentication, shopping cart,
 
 2. **Create and activate a virtual environment**
 
+  ```bash
   python -m venv env
   env\Scripts\activate      # Windows
   source env/bin/activate
 
 
 3. **Install dependencies**
- 
+
+  ```bash
   pip install -r requirements.txt
 
 4. **Setup RabbitMQ with Docker**
 
+  ```bash
   docker pull rabbitmq
   docker run -d --hostname my-rabbit --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-management
 
@@ -69,16 +72,19 @@ An online store built with Django, featuring user authentication, shopping cart,
 6. **Running Celery**
 
   Start Celery worker:
+      ```bash
       celery -A MyProject worker -l info
   Make sure RabbitMQ is running before starting Celery.
 
 7. **run the migration**
 
+    ```bash
     python manage.py makemigrations
     python manage.py migrate
 
 9. **run the sever**
-   
+
+     ```bash
      python manage.py runserver
 
 
