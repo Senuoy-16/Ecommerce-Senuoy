@@ -2,6 +2,8 @@
 
 An online store built with Django, featuring user authentication, shopping cart, order management, Stripe payment integration, Celery for email notifications,redis for cashing, a loyalty system, multilingual support, newsletter, coupons, and more.
 
+![home image][https://github.com/Senuoy-16/Ecommerce-Senuoy/blob/976d1c38381a424addd594cf6c105d9e909d6301/pics_of_my_website/Capture%20d%E2%80%99%C3%A9cran%202025-06-17%20145402.png]
+
 ---
 
 ## Features
