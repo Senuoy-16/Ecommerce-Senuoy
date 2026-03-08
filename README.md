@@ -1,6 +1,6 @@
 # Senuoy Store - Online E-commerce Platform
 
-An online store built with Django, featuring user authentication, shopping cart, order management, Stripe payment integration, Celery for email notifications, a loyalty system, multilingual support, newsletter, coupons, and more.
+An online store built with Django, featuring user authentication, shopping cart, order management, Stripe payment integration, Celery for email notifications,redis for cashing, a loyalty system, multilingual support, newsletter, coupons, and more.
 
 ---
 
@@ -23,12 +23,20 @@ An online store built with Django, featuring user authentication, shopping cart,
 
 ---
 
+## Tech Stack
+  - Backend: Django
+  - Task Queue: Celery
+  - Message Broker: RabbitMQ
+  - Payments: Stripe
+  - Database: postgreSQL
+
 ## Getting Started
 
 ### Prerequisites
 
   - Python 3.10+  
-  - Docker (for RabbitMQ)  
+  - RabbitMQ
+  - redis 
   - Stripe account for payment processing  
 
 ### Installation
@@ -53,7 +61,7 @@ An online store built with Django, featuring user authentication, shopping cart,
     pip install -r requirements.txt
     ```
 
-4. **Setup RabbitMQ with Docker**
+4. **Setup RabbitMQ**
     ```
     docker pull rabbitmq
     docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:management
