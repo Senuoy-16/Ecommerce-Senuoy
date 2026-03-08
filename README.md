@@ -34,7 +34,8 @@ An online store built with Django, featuring user authentication, shopping cart,
 
 ### Prerequisites
 
-  - Python 3.10+  
+  - Python 3.10+
+  - gtk3-runtime
   - redis
   - Docker
   - RabbitMQ
